@@ -4,29 +4,10 @@ import java.util.*;
 
 public class LottoNumbers {
 
-    private List<LottoNumber> lottoNumberList;
+    private final List<LottoNumber> lottoNumberList;
 
-    public LottoNumbers() {
-        generateRandomNumbers();    // 랜덤 6개 숫자 생성
-        sortLottoNumberList();      // sorting
-    }
-
-    // 테스트 용 직접 로또 번호 생성을 위한 생성자
-    public LottoNumbers(List<Integer> numberList) {
-        List<LottoNumber> numbers = new ArrayList<>();
-
-        for (Integer i : numberList) {
-            numbers.add(LottoNumber.from(i));
-        }
-        this.lottoNumberList = numbers;
-        sortLottoNumberList();
-    }
-
-    public List<LottoNumber> getLottoNumberList() {
-        return lottoNumberList;
-    }
-
-    private void generateRandomNumbers() {
+    // 랜덤 생성을 위한 정적 팩토리 메서드
+    public static LottoNumbers random() {
         List<LottoNumber> numbers = new ArrayList<>();
 
         for (int i = 1; i <= 45; i++) {
@@ -34,15 +15,31 @@ public class LottoNumbers {
         }
         Collections.shuffle(numbers);
 
-        this.lottoNumberList = numbers.subList(0, 6);
+        List<LottoNumber> selected = new ArrayList<>(numbers.subList(0, 6));
+        selected.sort(Comparator.comparingInt(LottoNumber::getNumber));
+        return new LottoNumbers(selected);
     }
 
-    public void sortLottoNumberList() {
-        this.lottoNumberList.sort(new Comparator<LottoNumber>() {
-            @Override
-            public int compare(LottoNumber o1, LottoNumber o2) {
-                return Integer.compare(o1.getNumber(), o2.getNumber());
-            }
-        });
+    // 수동 생성을 위한 정적 팩토리 메서드
+    public static LottoNumbers from(List<Integer> numberList) {
+        LottoNumberValidator.validateSize(numberList);
+
+        List<LottoNumber> numbers = new ArrayList<>();
+
+        for (Integer i : numberList) {
+            LottoNumberValidator.validateDistinctNumber(numbers, i);
+            numbers.add(LottoNumber.from(i));
+        }
+
+        numbers.sort(Comparator.comparingInt(LottoNumber::getNumber));
+        return new LottoNumbers(numbers);
+    }
+
+    private LottoNumbers(List<LottoNumber> lottoNumberList) {
+        this.lottoNumberList = new ArrayList<>(lottoNumberList);
+    }
+
+    public List<LottoNumber> getLottoNumberList() {
+        return lottoNumberList;
     }
 }
