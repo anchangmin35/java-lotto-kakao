@@ -46,7 +46,9 @@ public class Lottos {
     public int countEnum(LottoRank lottoRank) {
         int count = 0;
         for (Lotto lotto : lottoList) {
-            if (lotto.getLottoRank() == lottoRank) count++;
+            if (lotto.getLottoRank() == lottoRank) {
+                count++;
+            }
         }
 
         return count;
