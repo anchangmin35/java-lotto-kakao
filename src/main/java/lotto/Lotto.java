@@ -1,6 +1,6 @@
 package lotto;
 
-import java.util.*;
+import java.util.List;
 
 public class Lotto {
     // automatic
@@ -13,7 +13,6 @@ public class Lotto {
 
     public Lotto() {
         this(LottoNumbers.random());
-        this.lottoRank = LottoRank.PENDING;
     }
 
     public static Lotto from(List<Integer> numberList) {
@@ -27,11 +26,6 @@ public class Lotto {
 
     public LottoRank getLottoRank() {
         return this.lottoRank;
-    }
-
-    // 테스트 용 setter
-    public void setLottoRank(LottoRank lottoRank) {
-        this.lottoRank = lottoRank;
     }
 
     // 구매한 로또 리스트 반환
