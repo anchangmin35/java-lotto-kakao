@@ -6,7 +6,7 @@ import static lotto.LottoNumberValidator.*;
 
 public class WinningLotto {
     // manual
-    private WinningLottoNumbers winningLottoNumbers;
+    private final WinningLottoNumbers winningLottoNumbers;
     private LottoNumber bonusNumber;
 
     public WinningLotto(String input, String bonusInput) {

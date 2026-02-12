@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Lotto {
     // automatic
-    private LottoNumbers lottoNumbers;
+    private final LottoNumbers lottoNumbers;
     private LottoRank lottoRank;
 
     public LottoNumbers getLottoNumbers() {

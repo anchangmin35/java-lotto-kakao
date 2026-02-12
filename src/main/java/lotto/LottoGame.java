@@ -11,7 +11,7 @@ public class LottoGame {
     private WinningLotto winningLotto;
 
     // 구매 로또 리스트
-    private Lottos lottos;
+    private final Lottos lottos;
 
     public LottoGame() {
         lottos = new Lottos();
