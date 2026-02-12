@@ -1,6 +1,5 @@
 package lotto;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -8,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class LottoGameTest {
 
@@ -22,7 +21,7 @@ public class LottoGameTest {
     @Test
     @DisplayName("로또 구매 금액을 전달하면 구매할 수 있는 로또 장수를 반환한다.")
     public void calculateLottoCountTest() {
-        Assertions.assertThat(lottoGame.calculateLottoCount(1500)).isEqualTo(1);
+        assertThat(lottoGame.calculateLottoCount(1500)).isEqualTo(1);
     }
 
     @Test

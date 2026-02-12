@@ -44,9 +44,13 @@ public class LottosTest {
     @Test
     @DisplayName("당첨 결과를 입력하면 당첨금 총액을 반환한다.")
     public void getLottoSumTest() {
-        lottos.purchaseLotto(2);
-        lottos.getLottoList().get(0).setLottoRank(LottoRank.FIRST);
-        lottos.getLottoList().get(1).setLottoRank(LottoRank.THIRD);
+        Lotto firstRankLotto = Lotto.from(List.of(1, 2, 3, 4, 5, 6));
+        Lotto thirdRankLotto = Lotto.from(List.of(1, 2, 3, 4, 5, 8));
+        WinningLotto winningLotto = new WinningLotto("1, 2, 3, 4, 5, 6", "7");
+
+        lottos.add(firstRankLotto);
+        lottos.add(thirdRankLotto);
+        lottos.setAllLottoResult(winningLotto);
 
         assertThat(lottos.getLottoSum()).isEqualTo(2_001_500_000);
     }
@@ -62,7 +66,7 @@ public class LottosTest {
 
     @Test
     @DisplayName("당첨 금액과 구매 수량을 넣으면 수익률을 반환한다. (예시 데이터와 동일)")
-    public void getRateOfReturn1() {
+    public void getRateOfReturnWithSampleData() {
         int winning = 5_000;       // 당첨금 150만원
         lottos.purchaseLotto(14); // 로또 3장 구매
 
