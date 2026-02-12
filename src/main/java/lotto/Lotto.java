@@ -12,14 +12,17 @@ public class Lotto {
     }
 
     public Lotto() {
-        // 유효한 랜덤 숫자 6개를 생성
-        this.lottoNumbers = new LottoNumbers();
-        lottoRank = LottoRank.PENDING;
+        this(LottoNumbers.random());
+        this.lottoRank = LottoRank.PENDING;
     }
 
-    // 테스트 용 직접 로또 번호 생성을 위한 생성자
-    public Lotto(List<Integer> numberList) {
-        this.lottoNumbers = new LottoNumbers(numberList);
+    public static Lotto from(List<Integer> numberList) {
+        return new Lotto(LottoNumbers.from(numberList));
+    }
+
+    private Lotto(LottoNumbers lottoNumbers) {
+        this.lottoNumbers = lottoNumbers;
+        this.lottoRank = LottoRank.PENDING;
     }
 
     public LottoRank getLottoRank() {
