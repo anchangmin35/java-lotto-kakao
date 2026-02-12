@@ -7,10 +7,6 @@ public class Lotto {
     private final LottoNumbers lottoNumbers;
     private LottoRank lottoRank;
 
-    public LottoNumbers getLottoNumbers() {
-        return this.lottoNumbers;
-    }
-
     public Lotto() {
         this(LottoNumbers.random());
     }
@@ -24,16 +20,12 @@ public class Lotto {
         this.lottoRank = LottoRank.PENDING;
     }
 
-    public LottoRank getLottoRank() {
-        return this.lottoRank;
+    public LottoNumbers getLottoNumbers() {
+        return this.lottoNumbers;
     }
 
-    // 구매한 로또 리스트 반환
-    public List<Integer> getLottoNumbersAsList() {
-        // 로또 번호(Integer)만 담긴 리스트로 변환
-        return lottoNumbers.getLottoNumberList().stream()
-                .map(LottoNumber::getNumber)
-                .toList();
+    public LottoRank getLottoRank() {
+        return this.lottoRank;
     }
 
     public void evaluateRank(WinningLotto winningLotto) {
@@ -61,5 +53,12 @@ public class Lotto {
     // 로또의 결과 Enum 반환
     public LottoRank calculateLottoRank(int matchCount, boolean bonusCount) {
         return LottoRank.valueOf(matchCount, bonusCount);
+    }
+
+    // 로또 번호들을 리스트 형태로 반환
+    public List<Integer> toList() {
+        return this.lottoNumbers.getLottoNumberList().stream()
+                .map(LottoNumber::getNumber)
+                .toList();
     }
 }

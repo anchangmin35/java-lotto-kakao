@@ -1,8 +1,5 @@
 package lotto;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static lotto.LottoNumberValidator.validatePurchaseMoneyRange;
 
 public class LottoGame {
@@ -29,17 +26,6 @@ public class LottoGame {
     // 로또 구매
     public void purchaseLotto(int count) {
         lottos.purchaseLotto(count);
-    }
-
-    // 구매한 로또 출력
-    public List<List<Integer>> getLottoListAsList() {
-        List<List<Integer>> list = new ArrayList<>();
-
-        for (Lotto lotto : lottos.getLottoList()) {
-            list.add(lotto.getLottoNumbersAsList());
-        }
-
-        return list;
     }
 
     // 당첨 로또 생성

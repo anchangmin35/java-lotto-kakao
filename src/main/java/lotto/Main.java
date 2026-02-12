@@ -14,7 +14,7 @@ public class Main {
         outputView.printPurchaseAmount(lottoCount);
 
         game.purchaseLotto(lottoCount);
-        outputView.printLottoNumbers(game.getLottoListAsList());
+        outputView.printLottoNumbers(game.getLottos());
 
         outputView.printWinningLottoInput();
         String input = inputView.inputLottoNumber();
