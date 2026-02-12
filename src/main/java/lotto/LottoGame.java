@@ -3,7 +3,7 @@ package lotto;
 import java.util.ArrayList;
 import java.util.List;
 
-import static lotto.LottoNumberValidator.*;
+import static lotto.LottoNumberValidator.validatePurchaseMoneyRange;
 
 public class LottoGame {
 
