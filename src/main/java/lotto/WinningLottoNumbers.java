@@ -3,7 +3,10 @@ package lotto;
 import java.util.ArrayList;
 import java.util.List;
 
-import static lotto.LottoNumberValidator.*;
+import static lotto.LottoNumberValidator.validateDistinctNumber;
+import static lotto.LottoNumberValidator.validateRange;
+import static lotto.LottoNumberValidator.validateSize;
+import static lotto.LottoNumberValidator.validateString;
 
 public class WinningLottoNumbers {
 
