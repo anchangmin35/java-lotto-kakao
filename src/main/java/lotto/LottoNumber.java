@@ -3,6 +3,7 @@ package lotto;
 import java.util.Objects;
 
 public class LottoNumber {
+
     private final int number;
 
     private LottoNumber(int number) {
@@ -20,7 +21,9 @@ public class LottoNumber {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         LottoNumber that = (LottoNumber) o;
         return number == that.number;
     }

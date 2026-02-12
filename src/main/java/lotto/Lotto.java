@@ -55,7 +55,9 @@ public class Lotto {
     }
 
     public int countMatch(LottoNumber lottoNumber, WinningLotto winningLotto) {
-        if(winningLotto.contains(lottoNumber)) return 1;
+        if (winningLotto.contains(lottoNumber)) {
+            return 1;
+        }
         return 0;
     }
 

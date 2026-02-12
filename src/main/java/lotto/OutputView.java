@@ -35,9 +35,11 @@ public class OutputView {
     }
 
     public void printResultWithEnum(LottoRank lottoRank, LottoGame lottoGame) {
-        if(lottoRank == LottoRank.PENDING) return;
+        if (lottoRank == LottoRank.PENDING) {
+            return;
+        }
 
-        if(lottoRank.isMatchBonus()) {
+        if (lottoRank.isMatchBonus()) {
             System.out.println(lottoRank.getCountOfMatch() + "개 일치, 보너스 볼 일치(" + lottoRank.getValue() + "원)- " + lottoGame.getLottos().countEnum(lottoRank) + "개");
             return;
         }
@@ -49,9 +51,15 @@ public class OutputView {
         double rateOfReturn = lottoGame.getLottos().getRateOfReturn(lottoGame.getLottos().getLottoSum());
         System.out.print("총 수익률은 " + rateOfReturn + "입니다.(기준이 1이기 때문에 결과적으로 ");
 
-        if(rateOfReturn < 1.0) System.out.println("손해라는 의미임)");
-        if(rateOfReturn == 1.0) System.out.println("본전임 한번 더!)");
-        if(rateOfReturn > 1.0) System.out.println("이득이라는 의미임)");
+        if (rateOfReturn < 1.0) {
+            System.out.println("손해라는 의미임)");
+        }
+        if (rateOfReturn == 1.0) {
+            System.out.println("본전임 한번 더!)");
+        }
+        if (rateOfReturn > 1.0) {
+            System.out.println("이득이라는 의미임)");
+        }
     }
 }
 

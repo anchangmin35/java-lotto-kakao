@@ -29,7 +29,7 @@ public class Lottos {
     public int getLottoSum() {
         int sum = 0;
         for (Lotto lotto : lottoList) {
-            if(lotto.getLottoRank() != LottoRank.PENDING) sum += (int) lotto.getLottoRank().getValue();
+            sum += (int) lotto.getLottoRank().getValue();
         }
 
         return sum;
@@ -46,7 +46,7 @@ public class Lottos {
     public int countEnum(LottoRank lottoRank) {
         int count = 0;
         for (Lotto lotto : lottoList) {
-            if(lotto.getLottoRank() == lottoRank) count ++;
+            if (lotto.getLottoRank() == lottoRank) count++;
         }
 
         return count;
