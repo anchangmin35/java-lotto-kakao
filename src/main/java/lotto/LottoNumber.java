@@ -4,6 +4,8 @@ import java.util.Objects;
 
 public class LottoNumber {
 
+    static final int LOTTO_NUMBER_START = 1;
+    static final int LOTTO_NUMBER_END = 45;
     private final int number;
 
     private LottoNumber(int number) {

@@ -3,6 +3,8 @@ package lotto;
 import java.util.ArrayList;
 import java.util.List;
 
+import static lotto.LottoGame.LOTTO_PRICE;
+
 public class Lottos {
 
     private final List<Lotto> lottoList;
@@ -37,8 +39,8 @@ public class Lottos {
 
     // 수익률 반환
     public double getRateOfReturn(int sum) {
-        double rate = (double) sum / (lottoList.size() * 1000);
-        // 100을 곱해서 반올림하고 다시 100.0으로 나눔
+        double rate = (double) sum / (lottoList.size() * LOTTO_PRICE);
+
         return Math.floor(rate * 100) / 100.0;
     }
 

@@ -7,10 +7,8 @@ import static lotto.LottoNumberValidator.validatePurchaseMoneyRange;
 
 public class LottoGame {
 
-    // 정답 로또
+    static final int LOTTO_PRICE = 1000;
     private WinningLotto winningLotto;
-
-    // 구매 로또 리스트
     private final Lottos lottos;
 
     public LottoGame() {
@@ -25,7 +23,7 @@ public class LottoGame {
     public int calculateLottoCount(int money) {
         validatePurchaseMoneyRange(money);
 
-        return money / 1000;
+        return money / LOTTO_PRICE;
     }
 
     // 로또 구매
