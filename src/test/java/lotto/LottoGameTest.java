@@ -44,11 +44,11 @@ public class LottoGameTest {
     @DisplayName("정답 로또와 구매한 로또 하나를 비교하여 결과 Enum을 반환한다.")
     public void getOneLottoResultTest() {
         lottoGame.createWinningLotto("1, 2, 3, 4, 5, 6", "7");
-        Lotto lotto1 = new Lotto(List.of(1, 2, 3, 4, 5, 6));
-        Lotto lotto2 = new Lotto(List.of(1, 2, 3, 4, 5, 7));
-        Lotto lotto3 = new Lotto(List.of(1, 2, 3, 4, 5, 8));
-        Lotto lotto4 = new Lotto(List.of(1, 2, 3, 4, 9, 8));
-        Lotto lotto5 = new Lotto(List.of(1, 2, 3, 10, 9, 8));
+        Lotto lotto1 = Lotto.from(List.of(1, 2, 3, 4, 5, 6));
+        Lotto lotto2 = Lotto.from(List.of(1, 2, 3, 4, 5, 7));
+        Lotto lotto3 = Lotto.from(List.of(1, 2, 3, 4, 5, 8));
+        Lotto lotto4 = Lotto.from(List.of(1, 2, 3, 4, 9, 8));
+        Lotto lotto5 = Lotto.from(List.of(1, 2, 3, 10, 9, 8));
 
         lotto1.evaluateRank(new WinningLotto("1, 2, 3, 4, 5, 6", "7"));
         lotto2.evaluateRank(new WinningLotto("1, 2, 3, 4, 5, 6", "7"));

@@ -29,8 +29,8 @@ public class LottosTest {
     @Test
     @DisplayName("당첨 로또를 기준으로 모든 로또 결과를 계산한다.")
     public void setAllLottoResultTest() {
-        Lotto firstRankLotto = new Lotto(List.of(1, 2, 3, 4, 5, 6));
-        Lotto thirdRankLotto = new Lotto(List.of(1, 2, 3, 4, 5, 8));
+        Lotto firstRankLotto = Lotto.from(List.of(1, 2, 3, 4, 5, 6));
+        Lotto thirdRankLotto = Lotto.from(List.of(1, 2, 3, 4, 5, 8));
         WinningLotto winningLotto = new WinningLotto("1, 2, 3, 4, 5, 6", "7");
 
         lottos.add(firstRankLotto);
