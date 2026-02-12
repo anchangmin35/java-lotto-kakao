@@ -10,6 +10,13 @@ public class LottoNumberValidator {
         }
     }
 
+    // List<Integer> 를 넘겨서 사이즈 유효성 검사
+    public static void validateSize(List<Integer> numberList) {
+        if (numberList.size() != 6) {
+            throw new IllegalArgumentException("6개의 숫자를 입력해야 합니다.");
+        }
+    }
+
     public static void validateString(String substring) {
         if (!substring.matches("^[0-9]*$")) {
             throw new NumberFormatException("숫자가 아닙니다.");
