@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static lotto.LottoGame.LOTTO_PRICE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -28,7 +29,7 @@ public class LottoGameTest {
     @DisplayName("로또 구매 금액이 1000원 미만이면 예외를 반환한다.")
     public void calculateLottoCountExceptionTest() {
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> lottoGame.calculateLottoCount(500));
-        assertThat(exception.getMessage()).isEqualTo("1000원 이상의 금액을 입력해야 합니다.");
+        assertThat(exception.getMessage()).isEqualTo(LOTTO_PRICE + "원 이상의 금액을 입력해야 합니다.");
     }
 
     @Test

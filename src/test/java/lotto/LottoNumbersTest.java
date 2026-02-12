@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static lotto.LottoNumbers.LOTTO_NUMBER_SIZE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class LottoNumbersTest {
@@ -18,9 +19,9 @@ public class LottoNumbersTest {
                 .map(LottoNumber::getNumber)
                 .toList();
 
-        assertThat(numbers).hasSize(6);
+        assertThat(numbers).hasSize(LOTTO_NUMBER_SIZE);
         assertThat(numbers).isSorted();
-        assertThat(numbers.stream().distinct().count()).isEqualTo(6);
+        assertThat(numbers.stream().distinct().count()).isEqualTo(LOTTO_NUMBER_SIZE);
         assertThat(numbers).allMatch(number -> number >= 1 && number <= 45);
     }
 

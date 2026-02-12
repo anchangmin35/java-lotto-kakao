@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static lotto.LottoNumbers.LOTTO_NUMBER_SIZE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -15,7 +16,7 @@ public class WinningLottoTest {
         WinningLotto lotto = new WinningLotto("1, 2, 3, 4, 5, 6", "7");
 
         assertNotNull(lotto);
-        assertThat(lotto.getWinningLottoNumbers().getLottoNumberList().size()).isEqualTo(6);
+        assertThat(lotto.getWinningLottoNumbers().getLottoNumberList().size()).isEqualTo(LOTTO_NUMBER_SIZE);
     }
 
     @Test
@@ -24,7 +25,7 @@ public class WinningLottoTest {
         WinningLotto lotto = new WinningLotto("1, 2, 3, 4, 5, 6", "7");
 
         assertNotNull(lotto);
-        assertThat(lotto.getWinningLottoNumbers().getLottoNumberList().size()).isEqualTo(6);
+        assertThat(lotto.getWinningLottoNumbers().getLottoNumberList().size()).isEqualTo(LOTTO_NUMBER_SIZE);
         assertThat(lotto.getBonusNumber().getNumber()).isEqualTo(7);
     }
 
@@ -33,7 +34,7 @@ public class WinningLottoTest {
     @DisplayName("5개의 숫자만 입력받으면 예외 처리한다.")
     public void manualWinningLottoFailSizeTest() {
         IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () -> new WinningLotto("1, 2, 3, 4, 6", "7"));
-        assertThat(exception.getMessage()).isEqualTo("6개의 숫자를 입력해야 합니다.");
+        assertThat(exception.getMessage()).isEqualTo(LOTTO_NUMBER_SIZE + "개의 숫자를 입력해야 합니다.");
     }
 
     @Test

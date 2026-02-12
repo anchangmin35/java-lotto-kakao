@@ -3,6 +3,7 @@ package lotto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static lotto.LottoNumbers.LOTTO_NUMBER_SIZE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -14,7 +15,7 @@ public class LottoTest {
         Lotto lotto = new Lotto();
 
         assertNotNull(lotto);
-        assertThat(lotto.getLottoNumbers().getLottoNumberList().size()).isEqualTo(6);
+        assertThat(lotto.getLottoNumbers().getLottoNumberList().size()).isEqualTo(LOTTO_NUMBER_SIZE);
     }
 
     @Test

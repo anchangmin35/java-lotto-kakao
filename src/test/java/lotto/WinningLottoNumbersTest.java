@@ -3,6 +3,7 @@ package lotto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static lotto.LottoNumbers.LOTTO_NUMBER_SIZE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -21,7 +22,7 @@ public class WinningLottoNumbersTest {
     @DisplayName("입력 개수가 6개가 아니면 예외를 반환한다.")
     public void parseFailSizeTest() {
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> new WinningLottoNumbers("1, 2, 3, 4, 5"));
-        assertThat(exception.getMessage()).isEqualTo("6개의 숫자를 입력해야 합니다.");
+        assertThat(exception.getMessage()).isEqualTo(LOTTO_NUMBER_SIZE + "개의 숫자를 입력해야 합니다.");
     }
 
     @Test

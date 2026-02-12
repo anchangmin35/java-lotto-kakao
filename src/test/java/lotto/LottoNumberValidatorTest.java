@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import static lotto.LottoNumbers.LOTTO_NUMBER_SIZE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -26,7 +27,7 @@ public class LottoNumberValidatorTest {
         String[] numbers = {"1", "2", "3", "4", "5"};
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> LottoNumberValidator.validateSize(numbers));
-        assertThat(exception.getMessage()).isEqualTo("6개의 숫자를 입력해야 합니다.");
+        assertThat(exception.getMessage()).isEqualTo(LOTTO_NUMBER_SIZE + "개의 숫자를 입력해야 합니다.");
     }
 
     @Test
