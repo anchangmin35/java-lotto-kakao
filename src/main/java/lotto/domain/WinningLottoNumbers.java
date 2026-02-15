@@ -1,35 +1,20 @@
 package lotto.domain;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import static lotto.domain.LottoNumberValidator.validateDistinctNumber;
-import static lotto.domain.LottoNumberValidator.validateRange;
-import static lotto.domain.LottoNumberValidator.validateSize;
-import static lotto.domain.LottoNumberValidator.validateString;
 
 public class WinningLottoNumbers {
 
-    private List<LottoNumber> lottoNumberList;
+    private final List<LottoNumber> lottoNumberList;
 
     public List<LottoNumber> getLottoNumberList() {
         return lottoNumberList;
     }
 
-    public WinningLottoNumbers(String input) {
-        parseLottoNumbers(input);
+    public static WinningLottoNumbers from(List<Integer> winningNumberList) {
+        return new WinningLottoNumbers(LottoNumbers.from(winningNumberList).getLottoNumberList());
     }
 
-    private void parseLottoNumbers(String input) {
-        lottoNumberList = new ArrayList<>();
-
-        String[] strings = input.split(", ");
-        validateSize(strings);
-        for (String s : strings) {
-            validateString(s);
-            validateRange(Integer.parseInt(s));
-            validateDistinctNumber(this.lottoNumberList, Integer.parseInt(s));
-            lottoNumberList.add(LottoNumber.from(Integer.parseInt(s)));
-        }
+    private WinningLottoNumbers(List<LottoNumber> lottoNumberList) {
+        this.lottoNumberList = lottoNumberList;
     }
 }
