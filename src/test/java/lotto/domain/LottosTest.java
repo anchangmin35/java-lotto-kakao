@@ -11,32 +11,69 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class LottosTest {
 
     private Lottos lottos;
+    private Lotto firstRankLotto;
+    private Lotto thirdRankLotto;
 
     @BeforeEach
     public void setUp() {
         lottos = new Lottos();
+
+        firstRankLotto = Lotto.from(List.of(1, 2, 3, 4, 5, 6));
+        thirdRankLotto = Lotto.from(List.of(1, 2, 3, 4, 5, 8));
+        WinningLotto winningLotto = WinningLotto.from(List.of(1, 2, 3, 4, 5, 6), 7);
+
+        lottos.add(firstRankLotto);
+        lottos.add(thirdRankLotto);
+        lottos.setAllLottoResult(winningLotto);
     }
 
     @Test
     @DisplayName("로또를 추가하면 목록에 저장한다.")
     public void addLottoTest() {
-        lottos.add(new Lotto());
-        lottos.add(new Lotto());
+        lottos = new Lottos();
+
+        lottos.add(Lotto.random());
+        lottos.add(Lotto.from(List.of(1, 2, 3, 4, 5, 6)));
 
         assertThat(lottos.getLottoList()).hasSize(2);
     }
 
     @Test
+    @DisplayName("자동 구매 수량만큼 로또를 생성한다.")
+    public void purchaseAutomaticLottoTest() {
+        lottos = new Lottos();
+
+        lottos.purchaseAutomaticLotto(3);
+
+        assertThat(lottos.getLottoList()).hasSize(3);
+    }
+
+    @Test
+    @DisplayName("수동 입력 번호로 로또를 구매한다.")
+    public void purchaseManualLottoTest() {
+        lottos = new Lottos();
+
+        lottos.purchaseManualLotto(List.of(9, 1, 5, 3, 7, 2));
+
+        assertThat(lottos.getLottoList()).hasSize(1);
+        assertThat(lottos.getLottoList().get(0).toList()).containsExactly(1, 2, 3, 5, 7, 9);
+    }
+
+    @Test
+    @DisplayName("수동 구매 후 자동 구매를 추가할 수 있다.")
+    public void purchaseManualAndAutomaticLottoTest() {
+        lottos = new Lottos();
+
+        lottos.purchaseManualLotto(List.of(9, 1, 5, 3, 7, 2));
+        lottos.purchaseAutomaticLotto(2);
+
+        assertThat(lottos.getLottoList()).hasSize(3);
+        assertThat(lottos.getLottoList().get(0).toList()).containsExactly(1, 2, 3, 5, 7, 9);
+    }
+
+    @Test
     @DisplayName("당첨 로또를 기준으로 모든 로또 결과를 계산한다.")
     public void setAllLottoResultTest() {
-        Lotto firstRankLotto = Lotto.from(List.of(1, 2, 3, 4, 5, 6));
-        Lotto thirdRankLotto = Lotto.from(List.of(1, 2, 3, 4, 5, 8));
-        WinningLotto winningLotto = new WinningLotto("1, 2, 3, 4, 5, 6", "7");
-
-        lottos.add(firstRankLotto);
-        lottos.add(thirdRankLotto);
-        lottos.setAllLottoResult(winningLotto);
-
         assertThat(firstRankLotto.getLottoRank()).isEqualTo(LottoRank.FIRST);
         assertThat(thirdRankLotto.getLottoRank()).isEqualTo(LottoRank.THIRD);
     }
@@ -44,14 +81,6 @@ public class LottosTest {
     @Test
     @DisplayName("당첨 결과를 입력하면 당첨금 총액을 반환한다.")
     public void getLottoSumTest() {
-        Lotto firstRankLotto = Lotto.from(List.of(1, 2, 3, 4, 5, 6));
-        Lotto thirdRankLotto = Lotto.from(List.of(1, 2, 3, 4, 5, 8));
-        WinningLotto winningLotto = new WinningLotto("1, 2, 3, 4, 5, 6", "7");
-
-        lottos.add(firstRankLotto);
-        lottos.add(thirdRankLotto);
-        lottos.setAllLottoResult(winningLotto);
-
         assertThat(lottos.getLottoSum().getAmount()).isEqualTo(2_001_500_000);
     }
 
