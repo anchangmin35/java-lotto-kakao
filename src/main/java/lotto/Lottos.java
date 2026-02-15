@@ -3,8 +3,6 @@ package lotto;
 import java.util.ArrayList;
 import java.util.List;
 
-import static lotto.LottoGame.LOTTO_PRICE;
-
 public class Lottos {
 
     private final List<Lotto> lottoList;
@@ -28,18 +26,18 @@ public class Lottos {
     }
 
     // 로또 리스트들의 당첨금 총액 반환
-    public int getLottoSum() {
+    public Money getLottoSum() {
         int sum = 0;
         for (Lotto lotto : lottoList) {
             sum += (int) lotto.getLottoRank().getValue();
         }
 
-        return sum;
+        return Money.from(sum);
     }
 
     // 수익률 반환
-    public double getRateOfReturn(int sum) {
-        double rate = (double) sum / (lottoList.size() * LOTTO_PRICE);
+    public double getRateOfReturn(Money purchaseAmount, Money winningMoney) {
+        double rate = (double) winningMoney.getAmount() / purchaseAmount.getAmount();
 
         return Math.floor(rate * 100) / 100.0;
     }
