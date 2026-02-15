@@ -1,10 +1,7 @@
 package lotto;
 
-import static lotto.LottoNumberValidator.validatePurchaseMoneyRange;
-
 public class LottoGame {
 
-    static final int LOTTO_PRICE = 1000;
     private WinningLotto winningLotto;
     private final Lottos lottos;
 
@@ -14,13 +11,6 @@ public class LottoGame {
 
     public Lottos getLottos() {
         return lottos;
-    }
-
-    // 구매 가능한 갯수 반환
-    public int calculateLottoCount(int money) {
-        validatePurchaseMoneyRange(money);
-
-        return money / LOTTO_PRICE;
     }
 
     // 로또 구매
