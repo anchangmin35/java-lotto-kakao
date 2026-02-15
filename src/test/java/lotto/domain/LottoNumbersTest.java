@@ -7,6 +7,7 @@ import java.util.List;
 
 import static lotto.domain.LottoNumbers.LOTTO_NUMBER_SIZE;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class LottoNumbersTest {
 
@@ -32,5 +33,19 @@ public class LottoNumbersTest {
 
         assertThat(lottoNumbers.getLottoNumberList().stream().map(LottoNumber::getNumber).toList())
                 .containsExactly(1, 2, 3, 5, 7, 9);
+    }
+
+    @Test
+    @DisplayName("수동 번호에 중복이 있으면 예외를 반환한다.")
+    public void fromFailDuplicateTest() {
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> LottoNumbers.from(List.of(1, 2, 3, 4, 5, 5)));
+        assertThat(exception.getMessage()).isEqualTo("로또에 중복된 숫자가 존재합니다.");
+    }
+
+    @Test
+    @DisplayName("수동 번호가 범위를 벗어나면 예외를 반환한다.")
+    public void fromFailRangeTest() {
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> LottoNumbers.from(List.of(1, 2, 3, 4, 5, 46)));
+        assertThat(exception.getMessage()).isEqualTo("1 ~ 45 사이의 숫자를 입력해주세요.");
     }
 }
