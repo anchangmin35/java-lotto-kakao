@@ -2,16 +2,19 @@ package lotto.domain;
 
 import java.util.List;
 
+import static lotto.domain.LottoNumberValidator.validateSize;
+
 public class Lotto {
-    // automatic
+
     private final LottoNumbers lottoNumbers;
     private LottoRank lottoRank;
 
-    public Lotto() {
-        this(LottoNumbers.random());
+    public static Lotto random() {
+        return new Lotto(LottoNumbers.random());
     }
 
     public static Lotto from(List<Integer> numberList) {
+        validateSize(numberList);   // 로또 숫자가 6개인지 검증
         return new Lotto(LottoNumbers.from(numberList));
     }
 
