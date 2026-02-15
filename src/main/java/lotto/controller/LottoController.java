@@ -6,6 +6,10 @@ import lotto.domain.WinningLotto;
 import lotto.view.InputView;
 import lotto.view.OutputView;
 
+import java.util.List;
+
+import static lotto.domain.LottoNumberValidator.validatePurchaseManualLotto;
+
 public class LottoController {
 
     private final Lottos lottos;
@@ -19,13 +23,34 @@ public class LottoController {
         InputView inputView = new InputView();
 
         Money purchaseAmount = inputPurchaseAmount(outputView, inputView);
-        int lottoCount = calculateLottoCount(purchaseAmount, outputView);
+        int totalCount = calculateLottoCount(purchaseAmount);
 
-        printPurchaseLotto(lottoCount, outputView);
+        int manualCount = inputManualLottoCount(outputView, inputView, totalCount);   // 수동 구매 개수
+        purchaseManualLotto(outputView, inputView, manualCount);    // 로또 수동 구매
+
+        printPurchaseAllLotto(totalCount, manualCount, outputView);
         WinningLotto winningLotto = inputAndCreateWinningLotto(outputView, inputView);
 
         setAllLottoResult(winningLotto);
         printResult(purchaseAmount, outputView);
+    }
+
+    private void purchaseManualLotto(OutputView outputView, InputView inputView, int manualCount) {
+        if(manualCount > 0) {
+            outputView.printManualPurchase();
+        }
+        for (int i = 0; i < manualCount; i++) {
+            List<Integer> inputList = inputView.inputLottoNumbers();
+            lottos.purchaseManualLotto(inputList);
+        }
+    }
+
+    private int inputManualLottoCount(OutputView outputView, InputView inputView, int totalCount) {
+        outputView.printManualCount();
+        int manualCount = inputView.inputInteger();
+
+        validatePurchaseManualLotto(totalCount, manualCount);
+        return manualCount;
     }
 
     private void printResult(Money purchaseAmount, OutputView outputView) {
@@ -35,46 +60,38 @@ public class LottoController {
 
     private WinningLotto inputAndCreateWinningLotto(OutputView outputView, InputView inputView) {
         outputView.printWinningLottoInput();
-        String winningNumbers = inputView.inputLottoNumber();
+        List<Integer> winningNumberList = inputView.inputLottoNumbers();
 
         outputView.printBonusNumberInput();
-        String bonusNumber = inputView.inputLottoNumber();
+        Integer bonusNumber = inputView.inputInteger();
 
-        return createWinningLotto(winningNumbers, bonusNumber);
+        return createWinningLotto(winningNumberList, bonusNumber);
     }
 
     private Money inputPurchaseAmount(OutputView outputView, InputView inputView) {
         outputView.printPurchaseAmountInput();
-        return Money.from(inputView.inputPurchaseAmount());
+        return Money.from(inputView.inputInteger());
     }
 
-    private int calculateLottoCount(Money purchaseAmount, OutputView outputView) {
-        int lottoCount = purchaseAmount.calculateLottoCount();
-        outputView.printPurchaseAmount(lottoCount);
-
-        return lottoCount;
+    private int calculateLottoCount(Money purchaseAmount) {
+        return purchaseAmount.calculateLottoCount();
     }
 
-    private void printPurchaseLotto(int lottoCount, OutputView outputView) {
-        purchaseLotto(lottoCount);
+    private void printPurchaseAllLotto(int totalCount, int manualCount, OutputView outputView) {
+        if(totalCount - manualCount > 0) {
+            lottos.purchaseAutomaticLotto(totalCount - manualCount);   // (전체 - 수동)만큼의 자동 로또 구매
+        }
+        outputView.printPurchaseAmount(totalCount, manualCount);
         outputView.printLottoNumbers(lottos);
     }
 
-    // 로또 구매
-    public void purchaseLotto(int count) {
-        lottos.purchaseLotto(count);
-    }
-
     // 당첨 로또 생성
-    public WinningLotto createWinningLotto(String input, String bonus) {
-        return new WinningLotto(input, bonus);
+    public WinningLotto createWinningLotto(List<Integer> winningNumberList, Integer bonusNumber) {
+        return WinningLotto.from(winningNumberList, bonusNumber);
     }
 
     // 모든 로또 결과 설정
     private void setAllLottoResult(WinningLotto winningLotto) {
-        if (winningLotto == null) {
-            throw new IllegalStateException("당첨 로또가 설정되지 않았습니다.");
-        }
         lottos.setAllLottoResult(winningLotto);
     }
 }
