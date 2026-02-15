@@ -33,8 +33,26 @@ public enum LottoRank {
     }
 
     public static LottoRank valueOf(int countOfMatch, boolean matchBonus) {
+        LottoRank rankByCount = findByCount(countOfMatch);
+        if (countOfMatch != 5) {
+            return rankByCount;
+        }
+        return findByCountAndBonus(countOfMatch, matchBonus);
+    }
+
+    // 맞춘 개수만 판단하는 메서드
+    private static LottoRank findByCount(int countOfMatch) {
         return Arrays.stream(values())
-                .filter(rank -> rank.countOfMatch == countOfMatch && rank.matchBonus == matchBonus)
+                .filter(rank -> rank.countOfMatch == countOfMatch)
+                .findFirst()
+                .orElse(PENDING);
+    }
+
+    // 맞춘 개수 + 보너스 번호까지 맞는지 판단하는 메서드
+    private static LottoRank findByCountAndBonus(int countOfMatch, boolean matchBonus) {
+        return Arrays.stream(values())
+                .filter(rank -> rank.countOfMatch == countOfMatch)
+                .filter(rank -> rank.matchBonus == matchBonus)
                 .findFirst()
                 .orElse(PENDING);
     }
