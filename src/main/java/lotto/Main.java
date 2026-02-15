@@ -9,8 +9,8 @@ public class Main {
         LottoGame game = new LottoGame();
 
         outputView.printPurchaseAmountInput();
-        int purchaseAmount = inputView.inputPurchaseAmount();
-        int lottoCount = game.calculateLottoCount(purchaseAmount);
+        Money purchaseAmount = Money.from(inputView.inputPurchaseAmount());
+        int lottoCount = purchaseAmount.calculateLottoCount();
         outputView.printPurchaseAmount(lottoCount);
 
         game.purchaseLotto(lottoCount);
@@ -26,6 +26,6 @@ public class Main {
         game.setAllLottoResult();
 
         outputView.printResult(game);
-        outputView.printRateOfReturn(game);
+        outputView.printRateOfReturn(purchaseAmount, game);
     }
 }
