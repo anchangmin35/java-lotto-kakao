@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static lotto.domain.LottoNumberValidator.*;
+
 public class LottoNumber {
 
     static final int LOTTO_NUMBER_START = 1;
@@ -17,7 +19,7 @@ public class LottoNumber {
     }
 
     public static LottoNumber from(int number) {
-        LottoNumberValidator.validateRange(number);
+        validateRange(number);      // 범위 사이의 숫자인지 검증
         return LOTTO_NUMBER_CACHE.get(number - LOTTO_NUMBER_START);
     }
 
