@@ -1,6 +1,5 @@
 package lotto.view;
 
-import lotto.controller.LottoController;
 import lotto.domain.Lotto;
 import lotto.domain.LottoRank;
 import lotto.domain.Lottos;
@@ -31,28 +30,28 @@ public class OutputView {
     }
 
     // 당첨 결과 출력
-    public void printResult(LottoController lottoGame) {
+    public void printResult(Lottos lottos) {
         System.out.println("\n당첨 통계\n-------------");
         for (LottoRank lottoRank : LottoRank.values()) {
-            printResultWithEnum(lottoRank, lottoGame);
+            printResultWithEnum(lottoRank, lottos);
         }
     }
 
-    public void printResultWithEnum(LottoRank lottoRank, LottoController lottoGame) {
+    private void printResultWithEnum(LottoRank lottoRank, Lottos lottos) {
         if (lottoRank == LottoRank.PENDING) {
             return;
         }
 
         if (lottoRank.isMatchBonus()) {
-            System.out.println(lottoRank.getCountOfMatch() + "개 일치, 보너스 볼 일치(" + lottoRank.getValue() + "원)- " + lottoGame.getLottos().countEnum(lottoRank) + "개");
+            System.out.println(lottoRank.getCountOfMatch() + "개 일치, 보너스 볼 일치(" + lottoRank.getValue() + "원)- " + lottos.countEnum(lottoRank) + "개");
             return;
         }
-        System.out.println(lottoRank.getCountOfMatch() + "개 일치 (" + lottoRank.getValue() + "원)- " + lottoGame.getLottos().countEnum(lottoRank) + "개");
+        System.out.println(lottoRank.getCountOfMatch() + "개 일치 (" + lottoRank.getValue() + "원)- " + lottos.countEnum(lottoRank) + "개");
     }
 
     // 수익률 출력
-    public void printRateOfReturn(Money purchaseAmount, LottoController lottoGame) {
-        double rateOfReturn = lottoGame.getLottos().getRateOfReturn(purchaseAmount, lottoGame.getLottos().getLottoSum());
+    public void printRateOfReturn(Money purchaseAmount, Lottos lottos) {
+        double rateOfReturn = lottos.getRateOfReturn(purchaseAmount, lottos.getLottoSum());
         System.out.print("총 수익률은 " + rateOfReturn + "입니다.(기준이 1이기 때문에 결과적으로 ");
 
         if (rateOfReturn < 1.0) {
