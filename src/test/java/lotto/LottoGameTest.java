@@ -6,9 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static lotto.LottoGame.LOTTO_PRICE;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class LottoGameTest {
 
@@ -17,19 +15,6 @@ public class LottoGameTest {
     @BeforeEach
     public void setUp() {
         lottoGame = new LottoGame();
-    }
-
-    @Test
-    @DisplayName("로또 구매 금액을 전달하면 구매할 수 있는 로또 장수를 반환한다.")
-    public void calculateLottoCountTest() {
-        assertThat(lottoGame.calculateLottoCount(1500)).isEqualTo(1);
-    }
-
-    @Test
-    @DisplayName("로또 구매 금액이 1000원 미만이면 예외를 반환한다.")
-    public void calculateLottoCountExceptionTest() {
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> lottoGame.calculateLottoCount(500));
-        assertThat(exception.getMessage()).isEqualTo(LOTTO_PRICE + "원 이상의 금액을 입력해야 합니다.");
     }
 
     @Test

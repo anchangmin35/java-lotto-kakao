@@ -52,24 +52,24 @@ public class LottosTest {
         lottos.add(thirdRankLotto);
         lottos.setAllLottoResult(winningLotto);
 
-        assertThat(lottos.getLottoSum()).isEqualTo(2_001_500_000);
+        assertThat(lottos.getLottoSum().getAmount()).isEqualTo(2_001_500_000);
     }
 
     @Test
     @DisplayName("당첨 금액과 구매 수량을 넣으면 수익률을 반환한다.")
     public void getRateOfReturn() {
-        int winning = 1_500_000;       // 당첨금 150만원
-        lottos.purchaseLotto(3); // 로또 3장 구매
+        Money winning = Money.from(1_500_000);  // 당첨금 150만원
+        Money purchase = Money.from(3_000);     // 로또 3장 구매
 
-        assertThat(lottos.getRateOfReturn(winning)).isEqualTo(500.0);
+        assertThat(lottos.getRateOfReturn(purchase, winning)).isEqualTo(500.0);
     }
 
     @Test
     @DisplayName("당첨 금액과 구매 수량을 넣으면 수익률을 반환한다. (예시 데이터와 동일)")
     public void getRateOfReturnWithSampleData() {
-        int winning = 5_000;       // 당첨금 150만원
-        lottos.purchaseLotto(14); // 로또 3장 구매
+        Money winning = Money.from(5_000);       // 당첨금 5천원
+        Money purchase = Money.from(14_000);     // 로또 14장 구매
 
-        assertThat(lottos.getRateOfReturn(winning)).isEqualTo(0.35);
+        assertThat(lottos.getRateOfReturn(purchase, winning)).isEqualTo(0.35);
     }
 }
