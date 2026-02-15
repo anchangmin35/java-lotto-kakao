@@ -45,8 +45,8 @@ public class OutputView {
     }
 
     // 수익률 출력
-    public void printRateOfReturn(LottoGame lottoGame) {
-        double rateOfReturn = lottoGame.getLottos().getRateOfReturn(lottoGame.getLottos().getLottoSum());
+    public void printRateOfReturn(Money purchaseAmount, LottoGame lottoGame) {
+        double rateOfReturn = lottoGame.getLottos().getRateOfReturn(purchaseAmount, lottoGame.getLottos().getLottoSum());
         System.out.print("총 수익률은 " + rateOfReturn + "입니다.(기준이 1이기 때문에 결과적으로 ");
 
         if (rateOfReturn < 1.0) {
