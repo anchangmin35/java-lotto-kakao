@@ -12,7 +12,6 @@ public class WinningLottoNumbers {
 
     private List<LottoNumber> lottoNumberList;
 
-
     public List<LottoNumber> getLottoNumberList() {
         return lottoNumberList;
     }
