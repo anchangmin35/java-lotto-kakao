@@ -11,8 +11,8 @@ public class OutputView {
         System.out.println("구입 금액을 입력해 주세요.");
     }
 
-    public void printPurchaseAmount(int lottoCount) {
-        System.out.println(lottoCount + "개를 구매했습니다");
+    public void printPurchaseAmount(int totalCount, int manualCount) {
+        System.out.println("\n수동으로 " + manualCount + "장, 자동으로 " + (totalCount - manualCount) + "장을 구매했습니다.");
     }
 
     public void printWinningLottoInput() {
@@ -63,6 +63,14 @@ public class OutputView {
         if (rateOfReturn > 1.0) {
             System.out.println("이득이라는 의미임)");
         }
+    }
+
+    public void printManualCount() {
+        System.out.println("\n수동으로 구매할 로또 수를 입력해 주세요.");
+    }
+
+    public void printManualPurchase() {
+        System.out.println("\n수동으로 구매할 번호를 입력해 주세요.");
     }
 }
 
