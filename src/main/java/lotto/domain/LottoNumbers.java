@@ -7,6 +7,7 @@ import java.util.List;
 
 import static lotto.domain.LottoNumber.LOTTO_NUMBER_END;
 import static lotto.domain.LottoNumber.LOTTO_NUMBER_START;
+import static lotto.domain.LottoNumberValidator.*;
 
 public class LottoNumbers {
 
@@ -28,14 +29,12 @@ public class LottoNumbers {
     }
 
     // 수동 생성을 위한 정적 팩토리 메서드
-    public static LottoNumbers from(List<Integer> numberList) {
-        LottoNumberValidator.validateSize(numberList);
-
+    public static LottoNumbers from(List<Integer> inputNumberList) {
         List<LottoNumber> numbers = new ArrayList<>();
 
-        for (Integer i : numberList) {
-            LottoNumberValidator.validateDistinctNumber(numbers, i);
-            numbers.add(LottoNumber.from(i));
+        for (Integer inputNumber : inputNumberList) {
+            validateDistinctNumber(numbers, inputNumber);   // 중복 숫자가 있는 지 검증
+            numbers.add(LottoNumber.from(inputNumber));
         }
 
         numbers.sort(Comparator.comparingInt(LottoNumber::getNumber));
