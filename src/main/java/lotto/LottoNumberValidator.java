@@ -2,10 +2,10 @@ package lotto;
 
 import java.util.List;
 
-import static lotto.LottoGame.LOTTO_PRICE;
 import static lotto.LottoNumber.LOTTO_NUMBER_END;
 import static lotto.LottoNumber.LOTTO_NUMBER_START;
 import static lotto.LottoNumbers.LOTTO_NUMBER_SIZE;
+import static lotto.Money.LOTTO_PRICE;
 
 public class LottoNumberValidator {
 
@@ -46,8 +46,8 @@ public class LottoNumberValidator {
         }
     }
 
-    public static void validatePurchaseMoneyRange(int money) {
-        if (money < LOTTO_PRICE) {
+    public static void validatePurchaseMoneyRange(Money money) {
+        if (money.isLessThan(Money.from(LOTTO_PRICE))) {
             throw new IllegalArgumentException(LOTTO_PRICE + "원 이상의 금액을 입력해야 합니다.");
         }
     }
