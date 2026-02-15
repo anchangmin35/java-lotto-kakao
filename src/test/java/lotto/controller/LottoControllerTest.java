@@ -1,5 +1,8 @@
-package lotto;
+package lotto.controller;
 
+import lotto.domain.Lotto;
+import lotto.domain.LottoRank;
+import lotto.domain.WinningLotto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -8,13 +11,13 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class LottoGameTest {
+public class LottoControllerTest {
 
-    private LottoGame lottoGame;
+    private LottoController lottoGame;
 
     @BeforeEach
     public void setUp() {
-        lottoGame = new LottoGame();
+        lottoGame = new LottoController();
     }
 
     @Test

@@ -1,16 +1,16 @@
-package lotto;
+package lotto.domain;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import static lotto.LottoNumber.LOTTO_NUMBER_START;
-import static lotto.LottoNumber.LOTTO_NUMBER_END;
+import static lotto.domain.LottoNumber.LOTTO_NUMBER_END;
+import static lotto.domain.LottoNumber.LOTTO_NUMBER_START;
 
 public class LottoNumbers {
 
-    static final int LOTTO_NUMBER_SIZE = 6;
+    public static final int LOTTO_NUMBER_SIZE = 6;
     private final List<LottoNumber> lottoNumberList;
 
     // 랜덤 생성을 위한 정적 팩토리 메서드

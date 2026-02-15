@@ -1,8 +1,8 @@
-package lotto;
+package lotto.domain;
 
-import static lotto.LottoNumberValidator.validateDistinctBonusNumber;
-import static lotto.LottoNumberValidator.validateRange;
-import static lotto.LottoNumberValidator.validateString;
+import static lotto.domain.LottoNumberValidator.validateDistinctBonusNumber;
+import static lotto.domain.LottoNumberValidator.validateRange;
+import static lotto.domain.LottoNumberValidator.validateString;
 
 public class WinningLotto {
     // manual

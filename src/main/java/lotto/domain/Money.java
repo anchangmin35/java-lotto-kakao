@@ -1,8 +1,6 @@
-package lotto;
+package lotto.domain;
 
 import java.util.Objects;
-
-import static lotto.LottoNumberValidator.validatePurchaseMoneyRange;
 
 public class Money {
     public static final int LOTTO_PRICE = 1_000;
@@ -37,7 +35,7 @@ public class Money {
 
     // 구매 가능한 갯수 반환
     public int calculateLottoCount() {
-        validatePurchaseMoneyRange(this);
+        LottoNumberValidator.validatePurchaseMoneyRange(this);
 
         return this.divideBy(Money.from(LOTTO_PRICE));
     }

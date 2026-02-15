@@ -1,12 +1,12 @@
-package lotto;
+package lotto.domain;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static lotto.LottoNumberValidator.validateDistinctNumber;
-import static lotto.LottoNumberValidator.validateRange;
-import static lotto.LottoNumberValidator.validateSize;
-import static lotto.LottoNumberValidator.validateString;
+import static lotto.domain.LottoNumberValidator.validateDistinctNumber;
+import static lotto.domain.LottoNumberValidator.validateRange;
+import static lotto.domain.LottoNumberValidator.validateSize;
+import static lotto.domain.LottoNumberValidator.validateString;
 
 public class WinningLottoNumbers {
 

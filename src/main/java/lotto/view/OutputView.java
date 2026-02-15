@@ -1,4 +1,10 @@
-package lotto;
+package lotto.view;
+
+import lotto.controller.LottoController;
+import lotto.domain.Lotto;
+import lotto.domain.LottoRank;
+import lotto.domain.Lottos;
+import lotto.domain.Money;
 
 public class OutputView {
 
@@ -25,14 +31,14 @@ public class OutputView {
     }
 
     // 당첨 결과 출력
-    public void printResult(LottoGame lottoGame) {
+    public void printResult(LottoController lottoGame) {
         System.out.println("\n당첨 통계\n-------------");
         for (LottoRank lottoRank : LottoRank.values()) {
             printResultWithEnum(lottoRank, lottoGame);
         }
     }
 
-    public void printResultWithEnum(LottoRank lottoRank, LottoGame lottoGame) {
+    public void printResultWithEnum(LottoRank lottoRank, LottoController lottoGame) {
         if (lottoRank == LottoRank.PENDING) {
             return;
         }
@@ -45,7 +51,7 @@ public class OutputView {
     }
 
     // 수익률 출력
-    public void printRateOfReturn(Money purchaseAmount, LottoGame lottoGame) {
+    public void printRateOfReturn(Money purchaseAmount, LottoController lottoGame) {
         double rateOfReturn = lottoGame.getLottos().getRateOfReturn(purchaseAmount, lottoGame.getLottos().getLottoSum());
         System.out.print("총 수익률은 " + rateOfReturn + "입니다.(기준이 1이기 때문에 결과적으로 ");
 
@@ -60,5 +66,4 @@ public class OutputView {
         }
     }
 }
-
 

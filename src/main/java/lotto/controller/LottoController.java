@@ -1,11 +1,14 @@
-package lotto;
+package lotto.controller;
 
-public class LottoGame {
+import lotto.domain.Lottos;
+import lotto.domain.WinningLotto;
+
+public class LottoController {
 
     private WinningLotto winningLotto;
     private final Lottos lottos;
 
-    public LottoGame() {
+    public LottoController() {
         lottos = new Lottos();
     }
 

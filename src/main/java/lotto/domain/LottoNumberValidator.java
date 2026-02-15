@@ -1,11 +1,11 @@
-package lotto;
+package lotto.domain;
 
 import java.util.List;
 
-import static lotto.LottoNumber.LOTTO_NUMBER_END;
-import static lotto.LottoNumber.LOTTO_NUMBER_START;
-import static lotto.LottoNumbers.LOTTO_NUMBER_SIZE;
-import static lotto.Money.LOTTO_PRICE;
+import static lotto.domain.LottoNumber.LOTTO_NUMBER_END;
+import static lotto.domain.LottoNumber.LOTTO_NUMBER_START;
+import static lotto.domain.LottoNumbers.LOTTO_NUMBER_SIZE;
+import static lotto.domain.Money.LOTTO_PRICE;
 
 public class LottoNumberValidator {
 

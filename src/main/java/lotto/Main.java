@@ -1,12 +1,17 @@
 package lotto;
 
+import lotto.controller.LottoController;
+import lotto.domain.Money;
+import lotto.view.InputView;
+import lotto.view.OutputView;
+
 public class Main {
     public static void main(String[] args) {
 
         OutputView outputView = new OutputView();
         InputView inputView = new InputView();
 
-        LottoGame game = new LottoGame();
+        LottoController game = new LottoController();
 
         outputView.printPurchaseAmountInput();
         Money purchaseAmount = Money.from(inputView.inputPurchaseAmount());
