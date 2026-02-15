@@ -54,10 +54,15 @@ public class Lottos {
         return count;
     }
 
-    // 로또 구매
-    public void purchaseLotto(int count) {
+    // 자동 로또 구매
+    public void purchaseAutomaticLotto(int count) {
         for (int i = 0; i < count; i++) {
-            this.add(new Lotto());
+            this.add(Lotto.random());
         }
+    }
+
+    // 수동 로또 구매
+    public void purchaseManualLotto(List<Integer> inputList) {
+        this.add(Lotto.from(inputList));
     }
 }
