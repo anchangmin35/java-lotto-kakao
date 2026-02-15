@@ -31,4 +31,11 @@ public class LottoTest {
         assertThat(lotto.calculateLottoRank(2, false)).isEqualTo(LottoRank.PENDING);
     }
 
+    @Test
+    @DisplayName("3개 일치, 보너스 번호 일치일 때에는 5등을 반환한다.")
+    public void calculateLottoRankWithBonusTest() {
+        Lotto lotto = new Lotto();
+
+        assertThat(lotto.calculateLottoRank(3, true)).isEqualTo(LottoRank.FIFTH);
+    }
 }
