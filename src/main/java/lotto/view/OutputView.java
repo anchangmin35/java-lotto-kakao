@@ -24,9 +24,11 @@ public class OutputView {
     }
 
     public void printLottoNumbers(Lottos lottos) {
-        for (Lotto lotto : lottos.getLottoList()) {
-            System.out.println(lotto.toList());
-        }
+        lottos.forEach(this::printLottoNumbers);
+    }
+
+    private void printLottoNumbers(Lotto lotto) {
+        System.out.println(lotto.toList());
     }
 
     // 당첨 결과 출력
@@ -38,15 +40,11 @@ public class OutputView {
     }
 
     private void printResultWithLottoRank(LottoRank lottoRank, Integer matchCount) {
-        if (lottoRank == LottoRank.MISS) {
+        if (lottoRank.isMiss()) {
             return;
         }
 
-        if (lottoRank.isMatchBonus()) {
-            System.out.println(lottoRank.getCountOfMatch() + "개 일치, 보너스 볼 일치(" + lottoRank.getValue() + "원)- " + matchCount + "개");
-            return;
-        }
-        System.out.println(lottoRank.getCountOfMatch() + "개 일치 (" + lottoRank.getValue() + "원)- " + matchCount + "개");
+        System.out.println(lottoRank.formatResultMessage(matchCount));
     }
 
     // 수익률 출력

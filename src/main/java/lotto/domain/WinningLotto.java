@@ -28,7 +28,8 @@ public class WinningLotto {
     }
 
     private static void validateDistinctBonusNumber(LottoNumbers lottoNumbers, Integer number) {
-        if (lottoNumbers.contains(LottoNumber.from(number))) {
+        LottoNumber lottoNumber = LottoNumber.from(number);
+        if (lottoNumbers.contains(lottoNumber)) {
             throw new IllegalArgumentException("당첨 번호와 보너스 볼의 번호가 일치합니다.");
         }
     }

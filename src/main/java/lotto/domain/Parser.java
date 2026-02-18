@@ -8,9 +8,10 @@ public class Parser {
     public List<Integer> parseStringToList(String input) {
         List<Integer> list = new ArrayList<>();
         for (String token : input.split(",")) {
-            String number = token.trim();
-            validateString(number);
-            list.add(Integer.parseInt(number));
+            String stringNumber = token.trim();
+            validateString(stringNumber);
+            int number = Integer.parseInt(stringNumber);
+            list.add(number);
         }
 
         return list;

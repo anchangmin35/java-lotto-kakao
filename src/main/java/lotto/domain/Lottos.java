@@ -1,6 +1,7 @@
 package lotto.domain;
 
 import java.util.*;
+import java.util.function.Consumer;
 
 public class Lottos {
 
@@ -12,6 +13,10 @@ public class Lottos {
 
     public List<Lotto> getLottoList() {
         return List.copyOf(lottoList);
+    }
+
+    public void forEach(Consumer<Lotto> action) {
+        lottoList.forEach(action);
     }
 
     private void add(Lotto lotto) {

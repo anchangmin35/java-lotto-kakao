@@ -12,11 +12,18 @@ public record Result(Map<LottoRank, Integer> resultMap) {
     }
 
     public double getRateOfReturn(Money purchaseAmount) {
-        long sum = resultMap.entrySet().stream()
-                .mapToLong(entry -> entry.getKey().getValue() * entry.getValue())
-                .sum();
+        long sum = 0L;
+        for (Map.Entry<LottoRank, Integer> entry : resultMap.entrySet()) {
+            sum += calculatePrize(entry);
+        }
 
         double rate = (double) sum / purchaseAmount.getAmount();
         return Math.floor(rate * 100) / 100.0;
+    }
+
+    private long calculatePrize(Map.Entry<LottoRank, Integer> entry) {
+        LottoRank lottoRank = entry.getKey();
+        int count = entry.getValue();
+        return lottoRank.getValue() * count;
     }
 }

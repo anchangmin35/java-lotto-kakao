@@ -85,7 +85,8 @@ public class LottoController {
 
     private Money inputPurchaseAmount() {
         outputView.printPurchaseAmountInput();
-        return Money.from(inputView.inputInteger());
+        int amount = inputView.inputInteger();
+        return Money.from(amount);
     }
 
     private int calculateLottoCount(Money money) {
@@ -99,7 +100,9 @@ public class LottoController {
     }
 
     private void printAllPurchasedLotto(PurchasePlan purchasePlan, Lottos lottos) {
-        outputView.printPurchaseAmount(purchasePlan.totalCount(), purchasePlan.manualCount());
+        int totalCount = purchasePlan.totalCount();
+        int manualCount = purchasePlan.manualCount();
+        outputView.printPurchaseAmount(totalCount, manualCount);
         outputView.printLottoNumbers(lottos);
     }
 

@@ -19,7 +19,8 @@ public class InputView {
     // 구입금액, 로또 수 입력 메서드
     public int inputInteger() {
         String input = scanner.nextLine();
+        String trimmedInput = input.trim();
 
-        return parser.parseStringToInteger(input.trim());
+        return parser.parseStringToInteger(trimmedInput);
     }
 }

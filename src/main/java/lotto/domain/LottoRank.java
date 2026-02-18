@@ -20,16 +20,19 @@ public enum LottoRank {
         this.value = value;
     }
 
-    public int getCountOfMatch() {
-        return countOfMatch;
-    }
-
-    public boolean isMatchBonus() {
-        return matchBonus;
+    public boolean isMiss() {
+        return this == MISS;
     }
 
     public long getValue() {
         return this.value;
+    }
+
+    public String formatResultMessage(int matchCount) {
+        if (matchBonus) {
+            return countOfMatch + "개 일치, 보너스 볼 일치(" + value + "원)- " + matchCount + "개";
+        }
+        return countOfMatch + "개 일치 (" + value + "원)- " + matchCount + "개";
     }
 
     public static LottoRank valueOf(int countOfMatch, boolean matchBonus) {
