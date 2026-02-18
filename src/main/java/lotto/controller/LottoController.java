@@ -2,6 +2,7 @@ package lotto.controller;
 
 import lotto.domain.Lottos;
 import lotto.domain.Money;
+import lotto.domain.Result;
 import lotto.domain.WinningLotto;
 import lotto.view.InputView;
 import lotto.view.OutputView;
@@ -33,8 +34,8 @@ public class LottoController {
         printAllPurchasedLotto(totalCount, manualCount, lottos);    // 모든 로또(수동 + 자동) 출력
         WinningLotto winningLotto = inputAndCreateWinningLotto();   // 당첨 로또 입력 및 생성
 
-        setAllLottoResult(winningLotto, lottos);    // 모든 로또 결과 설정
-        printResult(purchaseAmount, lottos);        // 최종 결과 출력
+        Result result = calculateAllLottosResult(lottos, winningLotto);   // 모든 로또에 대한 Result 생성
+        printResult(purchaseAmount, result);                              // 최종 결과 출력
     }
 
     // 수동 구매 관련 출력 + 수동 구매 진행
@@ -64,9 +65,13 @@ public class LottoController {
         return manualCount;
     }
 
-    private void printResult(Money purchaseAmount, Lottos lottos) {
-        outputView.printResult(lottos);
-        double rateOfReturn = lottos.getRateOfReturn(purchaseAmount, lottos.getLottoSum());
+    private Result calculateAllLottosResult(Lottos lottos, WinningLotto winningLotto) {
+        return lottos.calculateAllLottosResult(winningLotto);
+    }
+
+    private void printResult(Money purchaseAmount, Result result) {
+        outputView.printResult(result);
+        double rateOfReturn = result.getRateOfReturn(purchaseAmount);
         outputView.printRateOfReturn(rateOfReturn);
     }
 
@@ -90,7 +95,7 @@ public class LottoController {
     }
 
     private void purchaseAutoLotto(int totalCount, int manualCount, Lottos lottos) {
-        if(totalCount - manualCount > 0) {
+        if (totalCount - manualCount > 0) {
             lottos.purchaseAutomaticLotto(totalCount - manualCount);   // (전체 - 수동)만큼의 자동 로또 구매
         }
     }
@@ -103,10 +108,5 @@ public class LottoController {
     // 당첨 로또 생성
     public WinningLotto createWinningLotto(List<Integer> winningNumberList, Integer bonusNumber) {
         return WinningLotto.from(winningNumberList, bonusNumber);
-    }
-
-    // 모든 로또 결과 설정
-    private void setAllLottoResult(WinningLotto winningLotto, Lottos lottos) {
-        lottos.setAllLottoResult(winningLotto);
     }
 }

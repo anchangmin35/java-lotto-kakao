@@ -33,4 +33,17 @@ public class WinningLotto {
     public boolean contains(LottoNumber lottoNumber) {
         return winningLottoNumbers.getLottoNumberList().contains(lottoNumber);
     }
+
+    public int countMatchWithWinningNumbers(LottoNumbers lottoNumbers) {
+        int countMatch = 0;
+        for (LottoNumber lottoNumber : lottoNumbers.getLottoNumberList()) {
+            if (this.contains(lottoNumber)) countMatch++;
+        }
+
+        return countMatch;
+    }
+
+    public boolean isContainBonusNumber(LottoNumbers lottoNumbers) {
+        return lottoNumbers.getLottoNumberList().contains(LottoNumber.from(bonusNumber.getNumber()));
+    }
 }

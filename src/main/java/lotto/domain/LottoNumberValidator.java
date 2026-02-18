@@ -25,7 +25,7 @@ public class LottoNumberValidator {
 
     public static void validateRange(Integer number) {
         if (number < LOTTO_NUMBER_START || number > LOTTO_NUMBER_END) {
-            throw new IllegalArgumentException(LOTTO_NUMBER_START + " ~ " +  LOTTO_NUMBER_END + " 사이의 숫자를 입력해주세요.");
+            throw new IllegalArgumentException(LOTTO_NUMBER_START + " ~ " + LOTTO_NUMBER_END + " 사이의 숫자를 입력해주세요.");
         }
     }
 
@@ -46,17 +46,17 @@ public class LottoNumberValidator {
             throw new IllegalArgumentException(LOTTO_PRICE + "원 이상의 금액을 입력해야 합니다.");
         }
 
-        if(money.isMoreThan(Money.from(PURCHASE_UPPER_LIMIT))) {
+        if (money.isMoreThan(Money.from(PURCHASE_UPPER_LIMIT))) {
             throw new IllegalArgumentException(PURCHASE_UPPER_LIMIT + "원 이하의 금액을 입력해야 합니다.");
         }
     }
 
     public static void validatePurchaseManualLotto(int totalCount, int manualCount) {
-        if(manualCount < 0) {
+        if (manualCount < 0) {
             throw new IllegalArgumentException("0 이상의 개수를 입력해주세요.");
         }
 
-        if(manualCount > totalCount) {
+        if (manualCount > totalCount) {
             throw new IllegalArgumentException("수동 구매 가능 개수를 초과했습니다.");
         }
     }

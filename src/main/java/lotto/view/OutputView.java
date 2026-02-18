@@ -3,6 +3,7 @@ package lotto.view;
 import lotto.domain.Lotto;
 import lotto.domain.LottoRank;
 import lotto.domain.Lottos;
+import lotto.domain.Result;
 
 public class OutputView {
 
@@ -29,23 +30,23 @@ public class OutputView {
     }
 
     // 당첨 결과 출력
-    public void printResult(Lottos lottos) {
+    public void printResult(Result result) {
         System.out.println("\n당첨 통계\n-------------");
         for (LottoRank lottoRank : LottoRank.values()) {
-            printResultWithEnum(lottoRank, lottos);
+            printResultWithLottoRank(lottoRank, result.getCount(lottoRank));
         }
     }
 
-    private void printResultWithEnum(LottoRank lottoRank, Lottos lottos) {
-        if (lottoRank == LottoRank.PENDING) {
+    private void printResultWithLottoRank(LottoRank lottoRank, Integer matchCount) {
+        if (lottoRank == LottoRank.MISS) {
             return;
         }
 
         if (lottoRank.isMatchBonus()) {
-            System.out.println(lottoRank.getCountOfMatch() + "개 일치, 보너스 볼 일치(" + lottoRank.getValue() + "원)- " + lottos.countEnum(lottoRank) + "개");
+            System.out.println(lottoRank.getCountOfMatch() + "개 일치, 보너스 볼 일치(" + lottoRank.getValue() + "원)- " + matchCount + "개");
             return;
         }
-        System.out.println(lottoRank.getCountOfMatch() + "개 일치 (" + lottoRank.getValue() + "원)- " + lottos.countEnum(lottoRank) + "개");
+        System.out.println(lottoRank.getCountOfMatch() + "개 일치 (" + lottoRank.getValue() + "원)- " + matchCount + "개");
     }
 
     // 수익률 출력

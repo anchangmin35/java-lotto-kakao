@@ -1,7 +1,6 @@
 package lotto.domain;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Lottos {
 
@@ -19,41 +18,6 @@ public class Lottos {
         this.lottoList.add(lotto);
     }
 
-    public void setAllLottoResult(WinningLotto winningLotto) {
-        for (Lotto lotto : lottoList) {
-            lotto.evaluateRank(winningLotto);
-        }
-    }
-
-    // 로또 리스트들의 당첨금 총액 반환
-    public Money getLottoSum() {
-        long sum = 0;
-        for (Lotto lotto : lottoList) {
-            sum += lotto.getLottoRank().getValue();
-        }
-
-        return Money.from(sum);
-    }
-
-    // 수익률 반환
-    public double getRateOfReturn(Money purchaseAmount, Money winningMoney) {
-        double rate = (double) winningMoney.getAmount() / purchaseAmount.getAmount();
-
-        return Math.floor(rate * 100) / 100.0;
-    }
-
-    // 특정 Enum(몇개 당첨인지) 개수 카운트
-    public int countEnum(LottoRank lottoRank) {
-        int count = 0;
-        for (Lotto lotto : lottoList) {
-            if (lotto.getLottoRank() == lottoRank) {
-                count++;
-            }
-        }
-
-        return count;
-    }
-
     // 자동 로또 구매
     public void purchaseAutomaticLotto(int count) {
         for (int i = 0; i < count; i++) {
@@ -64,5 +28,21 @@ public class Lottos {
     // 수동 로또 구매
     public void purchaseManualLotto(List<Integer> inputList) {
         this.add(Lotto.from(inputList));
+    }
+
+    // 모든 로또의 결과(Result) 반환
+    public Result calculateAllLottosResult(WinningLotto winningLotto) {
+        Map<LottoRank, Integer> resultMap = new HashMap<>();
+
+        for (Lotto lotto : this.lottoList) {
+            LottoRank lottoRank = lotto.calculateLottoRank(winningLotto);
+            resultMap.merge(lottoRank, 1, Integer::sum);   // 없으면 1넣고, 있다면 기존값+1
+        }
+
+        // 없는 당첨 결과는 0으로 채움
+        Arrays.stream(LottoRank.values())
+                .forEach(lottoRank -> resultMap.putIfAbsent(lottoRank, 0));
+
+        return new Result(resultMap);
     }
 }

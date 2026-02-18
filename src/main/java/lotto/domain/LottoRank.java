@@ -8,7 +8,7 @@ public enum LottoRank {
     THIRD(5, false, 1_500_000),
     SECOND(5, true, 30_000_000),
     FIRST(6, false, 2_000_000_000),
-    PENDING(0, false, 0);   // 결과와 비교 전 상태
+    MISS(0, false, 0);   // 당첨 x
 
     private final int countOfMatch;
     private final boolean matchBonus;
@@ -45,7 +45,7 @@ public enum LottoRank {
         return Arrays.stream(values())
                 .filter(rank -> rank.countOfMatch == countOfMatch)
                 .findFirst()
-                .orElse(PENDING);
+                .orElse(MISS);
     }
 
     // 맞춘 개수 + 보너스 번호까지 맞는지 판단하는 메서드
@@ -54,6 +54,6 @@ public enum LottoRank {
                 .filter(rank -> rank.countOfMatch == countOfMatch)
                 .filter(rank -> rank.matchBonus == matchBonus)
                 .findFirst()
-                .orElse(PENDING);
+                .orElse(MISS);
     }
 }
