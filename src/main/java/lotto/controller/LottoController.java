@@ -12,30 +12,31 @@ import static lotto.domain.LottoNumberValidator.validatePurchaseManualLotto;
 
 public class LottoController {
 
-    private final Lottos lottos;
+    private final OutputView outputView;
+    private final InputView inputView;
 
     public LottoController() {
-        lottos = new Lottos();
+        this.outputView = new OutputView();
+        this.inputView = new InputView();
     }
 
     public void run() {
-        OutputView outputView = new OutputView();
-        InputView inputView = new InputView();
+        Lottos lottos = new Lottos();
 
-        Money purchaseAmount = inputPurchaseAmount(outputView, inputView);
+        Money purchaseAmount = inputPurchaseAmount();
         int totalCount = calculateLottoCount(purchaseAmount);
 
-        int manualCount = inputManualLottoCount(outputView, inputView, totalCount);   // 수동 구매 개수
-        purchaseManualLotto(outputView, inputView, manualCount);    // 로또 수동 구매
+        int manualCount = inputManualLottoCount(totalCount);   // 수동 구매 개수
+        purchaseManualLotto(lottos, manualCount);    // 로또 수동 구매
 
-        printPurchaseAllLotto(totalCount, manualCount, outputView);
-        WinningLotto winningLotto = inputAndCreateWinningLotto(outputView, inputView);
+        printPurchaseAllLotto(totalCount, manualCount, lottos);
+        WinningLotto winningLotto = inputAndCreateWinningLotto();
 
-        setAllLottoResult(winningLotto);
-        printResult(purchaseAmount, outputView);
+        setAllLottoResult(winningLotto, lottos);
+        printResult(purchaseAmount, lottos);
     }
 
-    private void purchaseManualLotto(OutputView outputView, InputView inputView, int manualCount) {
+    private void purchaseManualLotto(Lottos lottos, int manualCount) {
         if(manualCount > 0) {
             outputView.printManualPurchase();
         }
@@ -45,7 +46,7 @@ public class LottoController {
         }
     }
 
-    private int inputManualLottoCount(OutputView outputView, InputView inputView, int totalCount) {
+    private int inputManualLottoCount(int totalCount) {
         outputView.printManualCount();
         int manualCount = inputView.inputInteger();
 
@@ -53,12 +54,12 @@ public class LottoController {
         return manualCount;
     }
 
-    private void printResult(Money purchaseAmount, OutputView outputView) {
-        outputView.printResult(this.lottos);
-        outputView.printRateOfReturn(purchaseAmount, this.lottos);
+    private void printResult(Money purchaseAmount, Lottos lottos) {
+        outputView.printResult(lottos);
+        outputView.printRateOfReturn(purchaseAmount, lottos);
     }
 
-    private WinningLotto inputAndCreateWinningLotto(OutputView outputView, InputView inputView) {
+    private WinningLotto inputAndCreateWinningLotto() {
         outputView.printWinningLottoInput();
         List<Integer> winningNumberList = inputView.inputLottoNumbers();
 
@@ -68,7 +69,7 @@ public class LottoController {
         return createWinningLotto(winningNumberList, bonusNumber);
     }
 
-    private Money inputPurchaseAmount(OutputView outputView, InputView inputView) {
+    private Money inputPurchaseAmount() {
         outputView.printPurchaseAmountInput();
         return Money.from(inputView.inputInteger());
     }
@@ -77,7 +78,7 @@ public class LottoController {
         return purchaseAmount.calculateLottoCount();
     }
 
-    private void printPurchaseAllLotto(int totalCount, int manualCount, OutputView outputView) {
+    private void printPurchaseAllLotto(int totalCount, int manualCount, Lottos lottos) {
         if(totalCount - manualCount > 0) {
             lottos.purchaseAutomaticLotto(totalCount - manualCount);   // (전체 - 수동)만큼의 자동 로또 구매
         }
@@ -91,7 +92,7 @@ public class LottoController {
     }
 
     // 모든 로또 결과 설정
-    private void setAllLottoResult(WinningLotto winningLotto) {
+    private void setAllLottoResult(WinningLotto winningLotto, Lottos lottos) {
         lottos.setAllLottoResult(winningLotto);
     }
 }
