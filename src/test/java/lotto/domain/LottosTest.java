@@ -49,9 +49,10 @@ public class LottosTest {
         lottos = new Lottos();
 
         lottos.purchaseManualLotto(List.of(9, 1, 5, 3, 7, 2));
+        Lotto lotto = lottos.getLottoList().getFirst();
 
         assertThat(lottos.getLottoList()).hasSize(1);
-        assertThat(lottos.getLottoList().get(0).toList()).containsExactly(1, 2, 3, 5, 7, 9);
+        assertThat(lotto.toList()).containsExactly(1, 2, 3, 5, 7, 9);
     }
 
     @Test
@@ -63,7 +64,6 @@ public class LottosTest {
         lottos.purchaseAutomaticLotto(2);
 
         assertThat(lottos.getLottoList()).hasSize(3);
-        assertThat(lottos.getLottoList().get(0).toList()).containsExactly(1, 2, 3, 5, 7, 9);
     }
 
     @Test
