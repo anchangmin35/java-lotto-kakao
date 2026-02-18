@@ -23,23 +23,33 @@ public class LottoController {
     public void run() {
         Lottos lottos = new Lottos();
 
-        Money purchaseAmount = inputPurchaseAmount();
-        int totalCount = calculateLottoCount(purchaseAmount);
+        Money purchaseAmount = inputPurchaseAmount();           // 구매 금액 입력
+        int totalCount = calculateLottoCount(purchaseAmount);   // 총 로또 구매 장 수 계산
 
-        int manualCount = inputManualLottoCount(totalCount);   // 수동 구매 개수
-        purchaseManualLotto(lottos, manualCount);    // 로또 수동 구매
+        int manualCount = inputManualLottoCount(totalCount);    // 수동 구매 개수
+        runManualPurchaseFlow(manualCount, lottos);             // 수동 구매 출력 및 진행
+        purchaseAutoLotto(totalCount, manualCount, lottos);     // 자동 구매
 
-        printPurchaseAllLotto(totalCount, manualCount, lottos);
-        WinningLotto winningLotto = inputAndCreateWinningLotto();
+        printAllPurchasedLotto(totalCount, manualCount, lottos);    // 모든 로또(수동 + 자동) 출력
+        WinningLotto winningLotto = inputAndCreateWinningLotto();   // 당첨 로또 입력 및 생성
 
-        setAllLottoResult(winningLotto, lottos);
-        printResult(purchaseAmount, lottos);
+        setAllLottoResult(winningLotto, lottos);    // 모든 로또 결과 설정
+        printResult(purchaseAmount, lottos);        // 최종 결과 출력
+    }
+
+    // 수동 구매 관련 출력 + 수동 구매 진행
+    private void runManualPurchaseFlow(int manualCount, Lottos lottos) {
+        printManualPurchaseGuide(manualCount);                  // 수동으로 몇 장 구매했는지 출력
+        purchaseManualLotto(lottos, manualCount);               // 로또 수동 구매
+    }
+
+    private void printManualPurchaseGuide(int manualCount) {
+        if (manualCount > 0) {
+            outputView.printManualPurchase();
+        }
     }
 
     private void purchaseManualLotto(Lottos lottos, int manualCount) {
-        if(manualCount > 0) {
-            outputView.printManualPurchase();
-        }
         for (int i = 0; i < manualCount; i++) {
             List<Integer> inputList = inputView.inputLottoNumbers();
             lottos.purchaseManualLotto(inputList);
@@ -56,7 +66,8 @@ public class LottoController {
 
     private void printResult(Money purchaseAmount, Lottos lottos) {
         outputView.printResult(lottos);
-        outputView.printRateOfReturn(purchaseAmount, lottos);
+        double rateOfReturn = lottos.getRateOfReturn(purchaseAmount, lottos.getLottoSum());
+        outputView.printRateOfReturn(rateOfReturn);
     }
 
     private WinningLotto inputAndCreateWinningLotto() {
@@ -74,14 +85,17 @@ public class LottoController {
         return Money.from(inputView.inputInteger());
     }
 
-    private int calculateLottoCount(Money purchaseAmount) {
-        return purchaseAmount.calculateLottoCount();
+    private int calculateLottoCount(Money money) {
+        return money.calculateLottoCount();
     }
 
-    private void printPurchaseAllLotto(int totalCount, int manualCount, Lottos lottos) {
+    private void purchaseAutoLotto(int totalCount, int manualCount, Lottos lottos) {
         if(totalCount - manualCount > 0) {
             lottos.purchaseAutomaticLotto(totalCount - manualCount);   // (전체 - 수동)만큼의 자동 로또 구매
         }
+    }
+
+    private void printAllPurchasedLotto(int totalCount, int manualCount, Lottos lottos) {
         outputView.printPurchaseAmount(totalCount, manualCount);
         outputView.printLottoNumbers(lottos);
     }

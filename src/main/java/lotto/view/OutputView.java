@@ -3,7 +3,6 @@ package lotto.view;
 import lotto.domain.Lotto;
 import lotto.domain.LottoRank;
 import lotto.domain.Lottos;
-import lotto.domain.Money;
 
 public class OutputView {
 
@@ -50,8 +49,7 @@ public class OutputView {
     }
 
     // 수익률 출력
-    public void printRateOfReturn(Money purchaseAmount, Lottos lottos) {
-        double rateOfReturn = lottos.getRateOfReturn(purchaseAmount, lottos.getLottoSum());
+    public void printRateOfReturn(double rateOfReturn) {
         System.out.print("총 수익률은 " + rateOfReturn + "입니다.(기준이 1이기 때문에 결과적으로 ");
 
         if (rateOfReturn < 1.0) {
