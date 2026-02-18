@@ -16,9 +16,7 @@ public class LottoNumbersTest {
     public void generateAndSortTest() {
         LottoNumbers lottoNumbers = LottoNumbers.random();
 
-        List<Integer> numbers = lottoNumbers.getLottoNumberList().stream()
-                .map(LottoNumber::getNumber)
-                .toList();
+        List<Integer> numbers = lottoNumbers.toNumberList();
 
         assertThat(numbers).hasSize(LOTTO_NUMBER_SIZE);
         assertThat(numbers).isSorted();
@@ -31,7 +29,7 @@ public class LottoNumbersTest {
     public void sortLottoNumberListTest() {
         LottoNumbers lottoNumbers = LottoNumbers.from(List.of(9, 1, 5, 3, 7, 2));
 
-        assertThat(lottoNumbers.getLottoNumberList().stream().map(LottoNumber::getNumber).toList())
+        assertThat(lottoNumbers.toNumberList())
                 .containsExactly(1, 2, 3, 5, 7, 9);
     }
 
@@ -40,6 +38,15 @@ public class LottoNumbersTest {
     public void fromFailDuplicateTest() {
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> LottoNumbers.from(List.of(1, 2, 3, 4, 5, 5)));
         assertThat(exception.getMessage()).isEqualTo("로또에 중복된 숫자가 존재합니다.");
+    }
+
+    @Test
+    @DisplayName("다른 로또 번호와 일치하는 숫자 개수를 반환한다.")
+    public void countMatchingNumbersTest() {
+        LottoNumbers winningNumbers = LottoNumbers.from(List.of(1, 2, 3, 4, 5, 6));
+        LottoNumbers purchasedNumbers = LottoNumbers.from(List.of(1, 2, 3, 7, 8, 9));
+
+        assertThat(winningNumbers.countMatchingNumbers(purchasedNumbers)).isEqualTo(3);
     }
 
     @Test

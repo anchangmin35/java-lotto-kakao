@@ -27,8 +27,6 @@ public class Lotto {
 
     // 로또 번호들을 리스트 형태로 반환
     public List<Integer> toList() {
-        return this.lottoNumbers.getLottoNumberList().stream()
-                .map(LottoNumber::getNumber)
-                .toList();
+        return lottoNumbers.toNumberList();
     }
 }

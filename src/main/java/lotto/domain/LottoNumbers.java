@@ -45,8 +45,20 @@ public class LottoNumbers {
         this.lottoNumberList = new ArrayList<>(lottoNumberList);
     }
 
-    public List<LottoNumber> getLottoNumberList() {
-        return lottoNumberList;
+    public List<Integer> toNumberList() {
+        return lottoNumberList.stream()
+                .map(LottoNumber::getNumber)
+                .toList();
+    }
+
+    public boolean contains(LottoNumber lottoNumber) {
+        return lottoNumberList.contains(lottoNumber);
+    }
+
+    public int countMatchingNumbers(LottoNumbers other) {
+        return (int) other.lottoNumberList.stream()
+                .filter(this::contains)
+                .count();
     }
 
     // 로또 숫자가 6개 인지 검증
