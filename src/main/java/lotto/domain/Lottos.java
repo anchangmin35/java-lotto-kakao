@@ -7,8 +7,12 @@ public class Lottos {
 
     private final List<Lotto> lottoList;
 
-    public Lottos() {
-        this.lottoList = new ArrayList<>();
+    public static Lottos from(List<Lotto> lottoList) {
+        return new Lottos(lottoList);
+    }
+
+    private Lottos(List<Lotto> lottoList) {
+        this.lottoList = List.copyOf(lottoList);
     }
 
     public List<Lotto> getLottoList() {
@@ -19,27 +23,11 @@ public class Lottos {
         lottoList.forEach(action);
     }
 
-    private void add(Lotto lotto) {
-        this.lottoList.add(lotto);
-    }
-
-    // 자동 로또 구매
-    public void purchaseAutomaticLotto(int count) {
-        for (int i = 0; i < count; i++) {
-            this.add(Lotto.random());
-        }
-    }
-
-    // 수동 로또 구매
-    public void purchaseManualLotto(List<Integer> inputList) {
-        this.add(Lotto.from(inputList));
-    }
-
     // 모든 로또의 결과(Result) 반환
     public Result calculateAllLottosResult(WinningLotto winningLotto) {
         Map<LottoRank, Integer> resultMap = new HashMap<>();
 
-        for (Lotto lotto : this.lottoList) {
+        for (Lotto lotto : lottoList) {
             LottoRank lottoRank = lotto.calculateLottoRank(winningLotto);
             resultMap.merge(lottoRank, 1, Integer::sum);   // 없으면 1넣고, 있다면 기존값+1
         }

@@ -1,5 +1,6 @@
 package lotto.controller;
 
+import lotto.domain.Lotto;
 import lotto.domain.Lottos;
 import lotto.domain.Money;
 import lotto.domain.PurchasePlan;
@@ -8,6 +9,7 @@ import lotto.domain.WinningLotto;
 import lotto.view.InputView;
 import lotto.view.OutputView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class LottoController {
@@ -21,14 +23,11 @@ public class LottoController {
     }
 
     public void run() {
-        Lottos lottos = new Lottos();
-
         Money purchaseAmount = inputPurchaseAmount();           // 구매 금액 입력
         int totalCount = calculateLottoCount(purchaseAmount);   // 총 로또 구매 장 수 계산
 
         PurchasePlan purchasePlan = inputPurchasePlan(totalCount);   // 수동/자동 구매 계획 생성
-        runManualPurchaseFlow(purchasePlan.manualCount(), lottos);   // 수동 구매 출력 및 진행
-        purchaseAutoLotto(purchasePlan.getAutoCount(), lottos);      // 자동 구매
+        Lottos lottos = purchaseLottos(purchasePlan);                // 로또 일괄 생성
 
         printAllPurchasedLotto(purchasePlan, lottos);                // 모든 로또(수동 + 자동) 출력
         WinningLotto winningLotto = inputAndCreateWinningLotto();    // 당첨 로또 입력 및 생성
@@ -37,10 +36,15 @@ public class LottoController {
         printResult(purchaseAmount, result);                              // 최종 결과 출력
     }
 
-    // 수동 구매 관련 출력 + 수동 구매 진행
-    private void runManualPurchaseFlow(int manualCount, Lottos lottos) {
-        printManualPurchaseGuide(manualCount);                  // 수동으로 몇 장 구매했는지 출력
-        purchaseManualLotto(lottos, manualCount);               // 로또 수동 구매
+    private Lottos purchaseLottos(PurchasePlan purchasePlan) {
+        List<Lotto> purchasedLottos = new ArrayList<>();
+
+        List<Lotto> manualLottos = purchaseManualLottos(purchasePlan.manualCount());
+        List<Lotto> autoLottos = purchaseAutoLottos(purchasePlan.getAutoCount());
+
+        purchasedLottos.addAll(manualLottos);
+        purchasedLottos.addAll(autoLottos);
+        return Lottos.from(purchasedLottos);
     }
 
     private void printManualPurchaseGuide(int manualCount) {
@@ -49,11 +53,23 @@ public class LottoController {
         }
     }
 
-    private void purchaseManualLotto(Lottos lottos, int manualCount) {
+    private List<Lotto> purchaseManualLottos(int manualCount) {
+        printManualPurchaseGuide(manualCount);
+
+        List<Lotto> manualLottos = new ArrayList<>();
         for (int i = 0; i < manualCount; i++) {
             List<Integer> inputList = inputView.inputLottoNumbers();
-            lottos.purchaseManualLotto(inputList);
+            manualLottos.add(Lotto.from(inputList));
         }
+        return manualLottos;
+    }
+
+    private List<Lotto> purchaseAutoLottos(int autoCount) {
+        List<Lotto> autoLottos = new ArrayList<>();
+        for (int i = 0; i < autoCount; i++) {
+            autoLottos.add(Lotto.random());
+        }
+        return autoLottos;
     }
 
     private PurchasePlan inputPurchasePlan(int totalCount) {
@@ -91,12 +107,6 @@ public class LottoController {
 
     private int calculateLottoCount(Money money) {
         return money.calculateLottoCount();
-    }
-
-    private void purchaseAutoLotto(int autoCount, Lottos lottos) {
-        if (autoCount > 0) {
-            lottos.purchaseAutomaticLotto(autoCount);
-        }
     }
 
     private void printAllPurchasedLotto(PurchasePlan purchasePlan, Lottos lottos) {

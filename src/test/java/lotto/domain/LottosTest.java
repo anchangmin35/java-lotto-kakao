@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -16,52 +17,57 @@ public class LottosTest {
 
     @BeforeEach
     public void setUp() {
-        lottos = new Lottos();
+        List<Lotto> purchasedLottos = new ArrayList<>();
+        purchasedLottos.add(Lotto.from(List.of(1, 2, 3, 4, 5, 6)));
+        purchasedLottos.add(Lotto.from(List.of(1, 2, 3, 4, 5, 8)));
+
+        lottos = Lottos.from(purchasedLottos);
         winningLotto = WinningLotto.from(List.of(1, 2, 3, 4, 5, 6), 7);
-        lottos.purchaseManualLotto(List.of(1, 2, 3, 4, 5, 6));
-        lottos.purchaseManualLotto(List.of(1, 2, 3, 4, 5, 8));
     }
 
     @Test
-    @DisplayName("수동 구매하면 목록에 저장한다.")
-    public void addLottoTest() {
-        lottos = new Lottos();
-
-        lottos.purchaseManualLotto(List.of(1, 2, 3, 4, 5, 6));
-        lottos.purchaseManualLotto(List.of(7, 8, 9, 10, 11, 12));
+    @DisplayName("전달한 로또 목록으로 Lottos를 생성한다.")
+    public void createLottosTest() {
+        List<Lotto> purchasedLottos = new ArrayList<>();
+        purchasedLottos.add(Lotto.from(List.of(1, 2, 3, 4, 5, 6)));
+        purchasedLottos.add(Lotto.from(List.of(7, 8, 9, 10, 11, 12)));
+        lottos = Lottos.from(purchasedLottos);
 
         assertThat(lottos.getLottoList()).hasSize(2);
     }
 
     @Test
-    @DisplayName("자동 구매 수량만큼 로또를 생성한다.")
-    public void purchaseAutomaticLottoTest() {
-        lottos = new Lottos();
+    @DisplayName("생성 시 원본 목록 변경이 내부 상태에 영향을 주지 않는다.")
+    public void createLottosWithDefensiveCopyTest() {
+        List<Lotto> purchasedLottos = new ArrayList<>();
+        purchasedLottos.add(Lotto.from(List.of(1, 2, 3, 4, 5, 6)));
+        lottos = Lottos.from(purchasedLottos);
 
-        lottos.purchaseAutomaticLotto(3);
+        purchasedLottos.add(Lotto.from(List.of(7, 8, 9, 10, 11, 12)));
 
-        assertThat(lottos.getLottoList()).hasSize(3);
+        assertThat(lottos.getLottoList()).hasSize(1);
     }
 
     @Test
-    @DisplayName("수동 입력 번호로 로또를 구매한다.")
-    public void purchaseManualLottoTest() {
-        lottos = new Lottos();
+    @DisplayName("수동 입력 번호 목록으로 로또를 생성한다.")
+    public void createLottosWithManualNumbersTest() {
+        List<Lotto> purchasedLottos = new ArrayList<>();
+        purchasedLottos.add(Lotto.from(List.of(9, 1, 5, 3, 7, 2)));
+        lottos = Lottos.from(purchasedLottos);
 
-        lottos.purchaseManualLotto(List.of(9, 1, 5, 3, 7, 2));
         Lotto lotto = lottos.getLottoList().getFirst();
-
         assertThat(lottos.getLottoList()).hasSize(1);
         assertThat(lotto.toList()).containsExactly(1, 2, 3, 5, 7, 9);
     }
 
     @Test
-    @DisplayName("수동 구매 후 자동 구매를 추가할 수 있다.")
-    public void purchaseManualAndAutomaticLottoTest() {
-        lottos = new Lottos();
-
-        lottos.purchaseManualLotto(List.of(9, 1, 5, 3, 7, 2));
-        lottos.purchaseAutomaticLotto(2);
+    @DisplayName("수동 로또와 자동 로또를 함께 생성할 수 있다.")
+    public void createLottosWithManualAndAutomaticTest() {
+        List<Lotto> purchasedLottos = new ArrayList<>();
+        purchasedLottos.add(Lotto.from(List.of(9, 1, 5, 3, 7, 2)));
+        purchasedLottos.add(Lotto.random());
+        purchasedLottos.add(Lotto.random());
+        lottos = Lottos.from(purchasedLottos);
 
         assertThat(lottos.getLottoList()).hasSize(3);
     }
@@ -80,7 +86,12 @@ public class LottosTest {
     @Test
     @DisplayName("고액 당첨이 여러 장이어도 수익률을 계산할 수 있다.")
     public void calculateAllLottosResultRateOfReturnTest() {
-        lottos.purchaseManualLotto(List.of(1, 2, 3, 4, 5, 6)); // 1등 2장 + 3등 1장
+        List<Lotto> purchasedLottos = new ArrayList<>();
+        purchasedLottos.add(Lotto.from(List.of(1, 2, 3, 4, 5, 6)));
+        purchasedLottos.add(Lotto.from(List.of(1, 2, 3, 4, 5, 8)));
+        purchasedLottos.add(Lotto.from(List.of(1, 2, 3, 4, 5, 6)));
+        lottos = Lottos.from(purchasedLottos);
+
         Result result = lottos.calculateAllLottosResult(winningLotto);
 
         assertThat(result.getRateOfReturn(Money.from(3_000))).isEqualTo(1_333_833.33, within(0.0001));

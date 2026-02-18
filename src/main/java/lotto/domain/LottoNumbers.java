@@ -42,7 +42,7 @@ public class LottoNumbers {
     }
 
     private LottoNumbers(List<LottoNumber> lottoNumberList) {
-        this.lottoNumberList = new ArrayList<>(lottoNumberList);
+        this.lottoNumberList = List.copyOf(lottoNumberList);
     }
 
     public List<Integer> toNumberList() {

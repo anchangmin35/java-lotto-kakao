@@ -26,7 +26,7 @@ public class LottoNumber {
         for (int i = LOTTO_NUMBER_START; i <= LOTTO_NUMBER_END; i++) {
             cache.add(new LottoNumber(i));
         }
-        return cache;
+        return List.copyOf(cache);
     }
 
     public int getNumber() {
