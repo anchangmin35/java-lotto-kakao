@@ -11,7 +11,7 @@ public class Lottos {
     }
 
     public List<Lotto> getLottoList() {
-        return lottoList;
+        return List.copyOf(lottoList);
     }
 
     private void add(Lotto lotto) {
