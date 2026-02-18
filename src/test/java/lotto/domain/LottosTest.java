@@ -7,12 +7,14 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.within;
 
 public class LottosTest {
 
     private Lottos lottos;
     private Lotto firstRankLotto;
     private Lotto thirdRankLotto;
+    private WinningLotto winningLotto;
 
     @BeforeEach
     public void setUp() {
@@ -20,11 +22,10 @@ public class LottosTest {
 
         firstRankLotto = Lotto.from(List.of(1, 2, 3, 4, 5, 6));
         thirdRankLotto = Lotto.from(List.of(1, 2, 3, 4, 5, 8));
-        WinningLotto winningLotto = WinningLotto.from(List.of(1, 2, 3, 4, 5, 6), 7);
+        winningLotto = WinningLotto.from(List.of(1, 2, 3, 4, 5, 6), 7);
 
         lottos.add(firstRankLotto);
         lottos.add(thirdRankLotto);
-        lottos.setAllLottoResult(winningLotto);
     }
 
     @Test
@@ -72,34 +73,22 @@ public class LottosTest {
     }
 
     @Test
-    @DisplayName("당첨 로또를 기준으로 모든 로또 결과를 계산한다.")
-    public void setAllLottoResultTest() {
-        assertThat(firstRankLotto.getLottoRank()).isEqualTo(LottoRank.FIRST);
-        assertThat(thirdRankLotto.getLottoRank()).isEqualTo(LottoRank.THIRD);
+    @DisplayName("당첨 로또를 기준으로 전체 로또 결과를 집계한다.")
+    public void calculateAllLottosResultTest() {
+        Result result = lottos.calculateAllLottosResult(winningLotto);
+
+        assertThat(result.getCount(LottoRank.FIRST)).isEqualTo(1);
+        assertThat(result.getCount(LottoRank.THIRD)).isEqualTo(1);
+        assertThat(result.getCount(LottoRank.SECOND)).isEqualTo(0);
+        assertThat(result.getCount(LottoRank.MISS)).isEqualTo(0);
     }
 
     @Test
-    @DisplayName("당첨 결과를 입력하면 당첨금 총액을 반환한다.")
-    public void getLottoSumTest() {
-        lottos.add(firstRankLotto);
-        assertThat(lottos.getLottoSum().getAmount()).isEqualTo(4_001_500_000L);
-    }
+    @DisplayName("고액 당첨이 여러 장이어도 수익률을 계산할 수 있다.")
+    public void calculateAllLottosResultRateOfReturnTest() {
+        lottos.add(firstRankLotto); // 1등 2장 + 3등 1장
+        Result result = lottos.calculateAllLottosResult(winningLotto);
 
-    @Test
-    @DisplayName("당첨 금액과 구매 수량을 넣으면 수익률을 반환한다.")
-    public void getRateOfReturn() {
-        Money winning = Money.from(1_500_000);  // 당첨금 150만원
-        Money purchase = Money.from(3_000);     // 로또 3장 구매
-
-        assertThat(lottos.getRateOfReturn(purchase, winning)).isEqualTo(500.0);
-    }
-
-    @Test
-    @DisplayName("당첨 금액과 구매 수량을 넣으면 수익률을 반환한다. (예시 데이터와 동일)")
-    public void getRateOfReturnWithSampleData() {
-        Money winning = Money.from(5_000);       // 당첨금 5천원
-        Money purchase = Money.from(14_000);     // 로또 14장 구매
-
-        assertThat(lottos.getRateOfReturn(purchase, winning)).isEqualTo(0.35);
+        assertThat(result.getRateOfReturn(Money.from(3_000))).isEqualTo(1_333_833.33, within(0.0001));
     }
 }

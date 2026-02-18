@@ -22,24 +22,31 @@ public class LottoTest {
     }
 
     @Test
-    @DisplayName("매칭 수와 보너스 여부에 따라 당첨 등수를 반환한다.")
+    @DisplayName("당첨 로또를 기준으로 로또의 당첨 등수를 계산한다.")
     public void calculateLottoRankTest() {
-        Lotto lotto = Lotto.random();
+        WinningLotto winningLotto = WinningLotto.from(List.of(1, 2, 3, 4, 5, 6), 7);
+        Lotto first = Lotto.from(List.of(1, 2, 3, 4, 5, 6));
+        Lotto second = Lotto.from(List.of(1, 2, 3, 4, 5, 7));
+        Lotto third = Lotto.from(List.of(1, 2, 3, 4, 5, 8));
+        Lotto fourth = Lotto.from(List.of(1, 2, 3, 4, 9, 8));
+        Lotto fifth = Lotto.from(List.of(1, 2, 3, 10, 9, 8));
+        Lotto miss = Lotto.from(List.of(1, 2, 10, 11, 12, 13));
 
-        assertThat(lotto.calculateLottoRank(6, false)).isEqualTo(LottoRank.FIRST);
-        assertThat(lotto.calculateLottoRank(5, true)).isEqualTo(LottoRank.SECOND);
-        assertThat(lotto.calculateLottoRank(5, false)).isEqualTo(LottoRank.THIRD);
-        assertThat(lotto.calculateLottoRank(4, false)).isEqualTo(LottoRank.FOURTH);
-        assertThat(lotto.calculateLottoRank(3, false)).isEqualTo(LottoRank.FIFTH);
-        assertThat(lotto.calculateLottoRank(2, false)).isEqualTo(LottoRank.PENDING);
+        assertThat(first.calculateLottoRank(winningLotto)).isEqualTo(LottoRank.FIRST);
+        assertThat(second.calculateLottoRank(winningLotto)).isEqualTo(LottoRank.SECOND);
+        assertThat(third.calculateLottoRank(winningLotto)).isEqualTo(LottoRank.THIRD);
+        assertThat(fourth.calculateLottoRank(winningLotto)).isEqualTo(LottoRank.FOURTH);
+        assertThat(fifth.calculateLottoRank(winningLotto)).isEqualTo(LottoRank.FIFTH);
+        assertThat(miss.calculateLottoRank(winningLotto)).isEqualTo(LottoRank.MISS);
     }
 
     @Test
     @DisplayName("3개 일치, 보너스 번호 일치일 때에는 5등을 반환한다.")
     public void calculateLottoRankWithBonusTest() {
-        Lotto lotto = Lotto.random();
+        WinningLotto winningLotto = WinningLotto.from(List.of(1, 2, 3, 4, 5, 6), 7);
+        Lotto lotto = Lotto.from(List.of(1, 2, 3, 7, 10, 11));
 
-        assertThat(lotto.calculateLottoRank(3, true)).isEqualTo(LottoRank.FIFTH);
+        assertThat(lotto.calculateLottoRank(winningLotto)).isEqualTo(LottoRank.FIFTH);
     }
 
     @Test

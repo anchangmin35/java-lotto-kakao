@@ -59,6 +59,24 @@ public class WinningLottoTest {
     }
 
     @Test
+    @DisplayName("당첨 번호와 비교해 일치 개수를 반환한다.")
+    public void countMatchWithWinningNumbersTest() {
+        WinningLotto winningLotto = WinningLotto.from(List.of(1, 2, 3, 4, 5, 6), 7);
+        LottoNumbers lottoNumbers = LottoNumbers.from(List.of(1, 2, 3, 4, 8, 9));
+
+        assertThat(winningLotto.countMatchWithWinningNumbers(lottoNumbers)).isEqualTo(4);
+    }
+
+    @Test
+    @DisplayName("보너스 번호 포함 여부를 반환한다.")
+    public void isContainBonusNumberTest() {
+        WinningLotto winningLotto = WinningLotto.from(List.of(1, 2, 3, 4, 5, 6), 7);
+
+        assertThat(winningLotto.isContainBonusNumber(LottoNumbers.from(List.of(1, 2, 3, 4, 5, 7)))).isTrue();
+        assertThat(winningLotto.isContainBonusNumber(LottoNumbers.from(List.of(1, 2, 3, 4, 5, 8)))).isFalse();
+    }
+
+    @Test
     @DisplayName("입력 개수가 6개가 아니면 예외를 반환한다.")
     public void parseFailSizeTest() {
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> WinningLotto.from(List.of(1, 2, 3, 4, 5), 7));

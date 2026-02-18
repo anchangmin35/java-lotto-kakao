@@ -43,16 +43,10 @@ public class LottoControllerTest {
         Lotto lotto4 = Lotto.from(List.of(1, 2, 3, 4, 9, 8));
         Lotto lotto5 = Lotto.from(List.of(1, 2, 3, 10, 9, 8));
 
-        lotto1.evaluateRank(winningLotto);
-        lotto2.evaluateRank(winningLotto);
-        lotto3.evaluateRank(winningLotto);
-        lotto4.evaluateRank(winningLotto);
-        lotto5.evaluateRank(winningLotto);
-
-        assertThat(lotto1.getLottoRank()).isEqualTo(LottoRank.FIRST);
-        assertThat(lotto2.getLottoRank()).isEqualTo(LottoRank.SECOND);
-        assertThat(lotto3.getLottoRank()).isEqualTo(LottoRank.THIRD);
-        assertThat(lotto4.getLottoRank()).isEqualTo(LottoRank.FOURTH);
-        assertThat(lotto5.getLottoRank()).isEqualTo(LottoRank.FIFTH);
+        assertThat(lotto1.calculateLottoRank(winningLotto)).isEqualTo(LottoRank.FIRST);
+        assertThat(lotto2.calculateLottoRank(winningLotto)).isEqualTo(LottoRank.SECOND);
+        assertThat(lotto3.calculateLottoRank(winningLotto)).isEqualTo(LottoRank.THIRD);
+        assertThat(lotto4.calculateLottoRank(winningLotto)).isEqualTo(LottoRank.FOURTH);
+        assertThat(lotto5.calculateLottoRank(winningLotto)).isEqualTo(LottoRank.FIFTH);
     }
 }
