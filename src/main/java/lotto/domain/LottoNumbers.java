@@ -7,7 +7,6 @@ import java.util.List;
 
 import static lotto.domain.LottoNumber.LOTTO_NUMBER_END;
 import static lotto.domain.LottoNumber.LOTTO_NUMBER_START;
-import static lotto.domain.LottoNumberValidator.*;
 
 public class LottoNumbers {
 
@@ -30,8 +29,9 @@ public class LottoNumbers {
 
     // 수동 생성을 위한 정적 팩토리 메서드
     public static LottoNumbers from(List<Integer> inputNumberList) {
-        List<LottoNumber> numbers = new ArrayList<>();
+        validateSize(inputNumberList);  // 로또 숫자 사이즈 검증
 
+        List<LottoNumber> numbers = new ArrayList<>();
         for (Integer inputNumber : inputNumberList) {
             validateDistinctNumber(numbers, inputNumber);   // 중복 숫자가 있는 지 검증
             numbers.add(LottoNumber.from(inputNumber));
@@ -47,5 +47,19 @@ public class LottoNumbers {
 
     public List<LottoNumber> getLottoNumberList() {
         return lottoNumberList;
+    }
+
+    // 로또 숫자가 6개 인지 검증
+    private static void validateSize(List<Integer> numberList) {
+        if (numberList.size() != LOTTO_NUMBER_SIZE) {
+            throw new IllegalArgumentException(LOTTO_NUMBER_SIZE + "개의 숫자를 입력해야 합니다.");
+        }
+    }
+
+    // 로또에 중복된 숫자가 있는지 검증
+    private static void validateDistinctNumber(List<LottoNumber> lottoNumberList, Integer number) {
+        if (lottoNumberList.contains(LottoNumber.from(number))) {
+            throw new IllegalArgumentException("로또에 중복된 숫자가 존재합니다.");
+        }
     }
 }

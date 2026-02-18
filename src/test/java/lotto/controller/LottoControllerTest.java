@@ -19,10 +19,11 @@ public class LottoControllerTest {
     @DisplayName("당첨 번호와 보너스 번호로 당첨 로또를 생성한다.")
     public void createWinningLottoTest() {
         WinningLotto winningLotto = lottoController.createWinningLotto(List.of(1, 2, 3, 4, 5, 6), 7);
+        Lotto first = Lotto.from(List.of(1, 2, 3, 4, 5, 6));
+        Lotto second = Lotto.from(List.of(1, 2, 3, 4, 5, 7));
 
-        assertThat(winningLotto.getWinningLottoNumbers().getLottoNumberList().stream().map(lottoNumber -> lottoNumber.getNumber()).toList())
-                .containsExactly(1, 2, 3, 4, 5, 6);
-        assertThat(winningLotto.getBonusNumber().getNumber()).isEqualTo(7);
+        assertThat(first.calculateLottoRank(winningLotto)).isEqualTo(LottoRank.FIRST);
+        assertThat(second.calculateLottoRank(winningLotto)).isEqualTo(LottoRank.SECOND);
     }
 
     @Test

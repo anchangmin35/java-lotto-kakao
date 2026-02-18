@@ -5,6 +5,7 @@ import java.util.Objects;
 public class Money {
     public static final int LOTTO_PRICE = 1_000;
     public static final int PURCHASE_UPPER_LIMIT = 10_000_000;    // 구매 금액 상한선
+
     private final long amount;
 
     private Money(long amount) {
@@ -15,19 +16,12 @@ public class Money {
     }
 
     public static Money from(long amount) {
+        validatePurchaseMoneyRange(amount); // 구매 금액의 유효성 판별
         return new Money(amount);
     }
 
     public long getAmount() {
         return amount;
-    }
-
-    public boolean isLessThan(Money other) {
-        return this.amount < other.amount;
-    }
-
-    public boolean isMoreThan(Money other) {
-        return this.amount > other.amount;
     }
 
     public long divideBy(Money other) {
@@ -40,9 +34,17 @@ public class Money {
 
     // 구매 가능한 갯수 반환
     public int calculateLottoCount() {
-        LottoNumberValidator.validatePurchaseMoneyRange(this);
-
         return Math.toIntExact(this.divideBy(Money.from(LOTTO_PRICE)));
+    }
+
+    private static void validatePurchaseMoneyRange(long purchaseAmount) {
+        if (purchaseAmount < LOTTO_PRICE) {
+            throw new IllegalArgumentException(LOTTO_PRICE + "원 이상의 금액을 입력해야 합니다.");
+        }
+
+        if (purchaseAmount > PURCHASE_UPPER_LIMIT) {
+            throw new IllegalArgumentException(PURCHASE_UPPER_LIMIT + "원 이하의 금액을 입력해야 합니다.");
+        }
     }
 
     @Override

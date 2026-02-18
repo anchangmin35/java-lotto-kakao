@@ -26,18 +26,15 @@ public class MoneyTest {
     @Test
     @DisplayName("로또 구매 금액이 1000원 미만이면 예외를 반환한다.")
     public void calculateLottoCountExceptionTest() {
-        Money money = Money.from(800);
-
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, money::calculateLottoCount);
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> Money.from(800));
         assertThat(exception.getMessage()).isEqualTo(LOTTO_PRICE + "원 이상의 금액을 입력해야 합니다.");
     }
 
     @Test
     @DisplayName("로또 구매 금액이 상한을 초과하면 예외를 반환한다.")
     public void calculateLottoCountUpperLimitExceptionTest() {
-        Money money = Money.from(PURCHASE_UPPER_LIMIT + 1L);
-
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, money::calculateLottoCount);
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+                () -> Money.from(PURCHASE_UPPER_LIMIT + 1L));
         assertThat(exception.getMessage()).isEqualTo(PURCHASE_UPPER_LIMIT + "원 이하의 금액을 입력해야 합니다.");
     }
 
@@ -48,13 +45,5 @@ public class MoneyTest {
 
         assertThat(money.divideBy(Money.from(1_000))).isEqualTo(5);
         assertThat(money.multiplyBy(2)).isEqualTo(Money.from(10000));
-    }
-
-    @Test
-    @DisplayName("금액 대소 비교를 수행한다.")
-    public void compareTest() {
-        Money money = Money.from(5_000);
-
-        assertThat(money.isLessThan(Money.from(10_000))).isTrue();
     }
 }

@@ -12,29 +12,23 @@ import static org.assertj.core.api.Assertions.within;
 public class LottosTest {
 
     private Lottos lottos;
-    private Lotto firstRankLotto;
-    private Lotto thirdRankLotto;
     private WinningLotto winningLotto;
 
     @BeforeEach
     public void setUp() {
         lottos = new Lottos();
-
-        firstRankLotto = Lotto.from(List.of(1, 2, 3, 4, 5, 6));
-        thirdRankLotto = Lotto.from(List.of(1, 2, 3, 4, 5, 8));
         winningLotto = WinningLotto.from(List.of(1, 2, 3, 4, 5, 6), 7);
-
-        lottos.add(firstRankLotto);
-        lottos.add(thirdRankLotto);
+        lottos.purchaseManualLotto(List.of(1, 2, 3, 4, 5, 6));
+        lottos.purchaseManualLotto(List.of(1, 2, 3, 4, 5, 8));
     }
 
     @Test
-    @DisplayName("로또를 추가하면 목록에 저장한다.")
+    @DisplayName("수동 구매하면 목록에 저장한다.")
     public void addLottoTest() {
         lottos = new Lottos();
 
-        lottos.add(Lotto.random());
-        lottos.add(Lotto.from(List.of(1, 2, 3, 4, 5, 6)));
+        lottos.purchaseManualLotto(List.of(1, 2, 3, 4, 5, 6));
+        lottos.purchaseManualLotto(List.of(7, 8, 9, 10, 11, 12));
 
         assertThat(lottos.getLottoList()).hasSize(2);
     }
@@ -86,7 +80,7 @@ public class LottosTest {
     @Test
     @DisplayName("고액 당첨이 여러 장이어도 수익률을 계산할 수 있다.")
     public void calculateAllLottosResultRateOfReturnTest() {
-        lottos.add(firstRankLotto); // 1등 2장 + 3등 1장
+        lottos.purchaseManualLotto(List.of(1, 2, 3, 4, 5, 6)); // 1등 2장 + 3등 1장
         Result result = lottos.calculateAllLottosResult(winningLotto);
 
         assertThat(result.getRateOfReturn(Money.from(3_000))).isEqualTo(1_333_833.33, within(0.0001));

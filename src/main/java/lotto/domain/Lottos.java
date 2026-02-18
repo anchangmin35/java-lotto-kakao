@@ -14,7 +14,7 @@ public class Lottos {
         return lottoList;
     }
 
-    public void add(Lotto lotto) {
+    private void add(Lotto lotto) {
         this.lottoList.add(lotto);
     }
 

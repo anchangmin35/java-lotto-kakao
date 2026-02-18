@@ -8,7 +8,6 @@ import java.util.List;
 
 import static lotto.domain.LottoNumbers.LOTTO_NUMBER_SIZE;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class WinningLottoTest {
@@ -18,9 +17,8 @@ public class WinningLottoTest {
     public void manualBonusTest() {
         WinningLotto lotto = WinningLotto.from(List.of(1, 2, 3, 4, 5, 6), 7);
 
-        assertNotNull(lotto);
-        assertThat(lotto.getWinningLottoNumbers().getLottoNumberList().size()).isEqualTo(LOTTO_NUMBER_SIZE);
-        assertThat(lotto.getBonusNumber().getNumber()).isEqualTo(7);
+        assertThat(lotto.countMatchWithWinningNumbers(LottoNumbers.from(List.of(1, 2, 3, 4, 5, 6)))).isEqualTo(LOTTO_NUMBER_SIZE);
+        assertThat(lotto.isContainBonusNumber(LottoNumbers.from(List.of(1, 2, 3, 4, 5, 7)))).isTrue();
     }
 
     @Test

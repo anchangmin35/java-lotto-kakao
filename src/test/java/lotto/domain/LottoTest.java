@@ -18,7 +18,8 @@ public class LottoTest {
         Lotto lotto = Lotto.random();
 
         assertNotNull(lotto);
-        assertThat(lotto.getLottoNumbers().getLottoNumberList().size()).isEqualTo(LOTTO_NUMBER_SIZE);
+        assertThat(lotto.toList()).hasSize(LOTTO_NUMBER_SIZE);
+        assertThat(lotto.toList().stream().distinct().count()).isEqualTo(LOTTO_NUMBER_SIZE);
     }
 
     @Test

@@ -3,8 +3,6 @@ package lotto.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-import static lotto.domain.LottoNumberValidator.validateString;
-
 public class Parser {
 
     public List<Integer> parseStringToList(String input) {
@@ -21,5 +19,11 @@ public class Parser {
     public Integer parseStringToInteger(String input) {
         validateString(input);
         return Integer.parseInt(input);
+    }
+
+    private void validateString(String substring) {
+        if (substring.isEmpty() || !substring.matches("^-?[0-9]+$")) {
+            throw new NumberFormatException("숫자가 아닙니다.");
+        }
     }
 }

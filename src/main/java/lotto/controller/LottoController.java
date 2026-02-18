@@ -2,14 +2,13 @@ package lotto.controller;
 
 import lotto.domain.Lottos;
 import lotto.domain.Money;
+import lotto.domain.PurchasePlan;
 import lotto.domain.Result;
 import lotto.domain.WinningLotto;
 import lotto.view.InputView;
 import lotto.view.OutputView;
 
 import java.util.List;
-
-import static lotto.domain.LottoNumberValidator.validatePurchaseManualLotto;
 
 public class LottoController {
 
@@ -27,12 +26,12 @@ public class LottoController {
         Money purchaseAmount = inputPurchaseAmount();           // 구매 금액 입력
         int totalCount = calculateLottoCount(purchaseAmount);   // 총 로또 구매 장 수 계산
 
-        int manualCount = inputManualLottoCount(totalCount);    // 수동 구매 개수
-        runManualPurchaseFlow(manualCount, lottos);             // 수동 구매 출력 및 진행
-        purchaseAutoLotto(totalCount, manualCount, lottos);     // 자동 구매
+        PurchasePlan purchasePlan = inputPurchasePlan(totalCount);   // 수동/자동 구매 계획 생성
+        runManualPurchaseFlow(purchasePlan.manualCount(), lottos);   // 수동 구매 출력 및 진행
+        purchaseAutoLotto(purchasePlan.getAutoCount(), lottos);      // 자동 구매
 
-        printAllPurchasedLotto(totalCount, manualCount, lottos);    // 모든 로또(수동 + 자동) 출력
-        WinningLotto winningLotto = inputAndCreateWinningLotto();   // 당첨 로또 입력 및 생성
+        printAllPurchasedLotto(purchasePlan, lottos);                // 모든 로또(수동 + 자동) 출력
+        WinningLotto winningLotto = inputAndCreateWinningLotto();    // 당첨 로또 입력 및 생성
 
         Result result = calculateAllLottosResult(lottos, winningLotto);   // 모든 로또에 대한 Result 생성
         printResult(purchaseAmount, result);                              // 최종 결과 출력
@@ -57,12 +56,11 @@ public class LottoController {
         }
     }
 
-    private int inputManualLottoCount(int totalCount) {
+    private PurchasePlan inputPurchasePlan(int totalCount) {
         outputView.printManualCount();
         int manualCount = inputView.inputInteger();
 
-        validatePurchaseManualLotto(totalCount, manualCount);
-        return manualCount;
+        return new PurchasePlan(totalCount, manualCount);
     }
 
     private Result calculateAllLottosResult(Lottos lottos, WinningLotto winningLotto) {
@@ -94,14 +92,14 @@ public class LottoController {
         return money.calculateLottoCount();
     }
 
-    private void purchaseAutoLotto(int totalCount, int manualCount, Lottos lottos) {
-        if (totalCount - manualCount > 0) {
-            lottos.purchaseAutomaticLotto(totalCount - manualCount);   // (전체 - 수동)만큼의 자동 로또 구매
+    private void purchaseAutoLotto(int autoCount, Lottos lottos) {
+        if (autoCount > 0) {
+            lottos.purchaseAutomaticLotto(autoCount);
         }
     }
 
-    private void printAllPurchasedLotto(int totalCount, int manualCount, Lottos lottos) {
-        outputView.printPurchaseAmount(totalCount, manualCount);
+    private void printAllPurchasedLotto(PurchasePlan purchasePlan, Lottos lottos) {
+        outputView.printPurchaseAmount(purchasePlan.totalCount(), purchasePlan.manualCount());
         outputView.printLottoNumbers(lottos);
     }
 
