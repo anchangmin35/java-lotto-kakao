@@ -81,7 +81,8 @@ public class LottosTest {
     @Test
     @DisplayName("당첨 결과를 입력하면 당첨금 총액을 반환한다.")
     public void getLottoSumTest() {
-        assertThat(lottos.getLottoSum().getAmount()).isEqualTo(2_001_500_000);
+        lottos.add(firstRankLotto);
+        assertThat(lottos.getLottoSum().getAmount()).isEqualTo(4_001_500_000L);
     }
 
     @Test

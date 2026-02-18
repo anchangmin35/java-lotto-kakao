@@ -4,6 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static lotto.domain.Money.LOTTO_PRICE;
+import static lotto.domain.Money.PURCHASE_UPPER_LIMIT;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -29,6 +30,15 @@ public class MoneyTest {
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, money::calculateLottoCount);
         assertThat(exception.getMessage()).isEqualTo(LOTTO_PRICE + "원 이상의 금액을 입력해야 합니다.");
+    }
+
+    @Test
+    @DisplayName("로또 구매 금액이 상한을 초과하면 예외를 반환한다.")
+    public void calculateLottoCountUpperLimitExceptionTest() {
+        Money money = Money.from(PURCHASE_UPPER_LIMIT + 1L);
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, money::calculateLottoCount);
+        assertThat(exception.getMessage()).isEqualTo(PURCHASE_UPPER_LIMIT + "원 이하의 금액을 입력해야 합니다.");
     }
 
     @Test
