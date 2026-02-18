@@ -27,9 +27,9 @@ public class Lottos {
 
     // 로또 리스트들의 당첨금 총액 반환
     public Money getLottoSum() {
-        int sum = 0;
+        long sum = 0;
         for (Lotto lotto : lottoList) {
-            sum += (int) lotto.getLottoRank().getValue();
+            sum += lotto.getLottoRank().getValue();
         }
 
         return Money.from(sum);

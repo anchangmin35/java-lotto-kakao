@@ -4,20 +4,21 @@ import java.util.Objects;
 
 public class Money {
     public static final int LOTTO_PRICE = 1_000;
-    private final int amount;
+    public static final int PURCHASE_UPPER_LIMIT = 10_000_000;    // 구매 금액 상한선
+    private final long amount;
 
-    private Money(int amount) {
+    private Money(long amount) {
         if (amount < 0) {
             throw new IllegalArgumentException("금액은 0 이상이어야 합니다.");
         }
         this.amount = amount;
     }
 
-    public static Money from(int amount) {
+    public static Money from(long amount) {
         return new Money(amount);
     }
 
-    public int getAmount() {
+    public long getAmount() {
         return amount;
     }
 
@@ -25,7 +26,11 @@ public class Money {
         return this.amount < other.amount;
     }
 
-    public int divideBy(Money other) {
+    public boolean isMoreThan(Money other) {
+        return this.amount > other.amount;
+    }
+
+    public long divideBy(Money other) {
         return this.amount / other.amount;
     }
 
@@ -37,7 +42,7 @@ public class Money {
     public int calculateLottoCount() {
         LottoNumberValidator.validatePurchaseMoneyRange(this);
 
-        return this.divideBy(Money.from(LOTTO_PRICE));
+        return Math.toIntExact(this.divideBy(Money.from(LOTTO_PRICE)));
     }
 
     @Override

@@ -6,6 +6,7 @@ import static lotto.domain.LottoNumber.LOTTO_NUMBER_END;
 import static lotto.domain.LottoNumber.LOTTO_NUMBER_START;
 import static lotto.domain.LottoNumbers.LOTTO_NUMBER_SIZE;
 import static lotto.domain.Money.LOTTO_PRICE;
+import static lotto.domain.Money.PURCHASE_UPPER_LIMIT;
 
 public class LottoNumberValidator {
 
@@ -43,6 +44,10 @@ public class LottoNumberValidator {
     public static void validatePurchaseMoneyRange(Money money) {
         if (money.isLessThan(Money.from(LOTTO_PRICE))) {
             throw new IllegalArgumentException(LOTTO_PRICE + "원 이상의 금액을 입력해야 합니다.");
+        }
+
+        if(money.isMoreThan(Money.from(PURCHASE_UPPER_LIMIT))) {
+            throw new IllegalArgumentException(PURCHASE_UPPER_LIMIT + "원 이하의 금액을 입력해야 합니다.");
         }
     }
 
