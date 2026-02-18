@@ -23,7 +23,7 @@ public class PurchasePlanTest {
     public void createPurchasePlanFailNegativeManualCountTest() {
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
                 () -> new PurchasePlan(8, -1));
-        assertThat(exception.getMessage()).isEqualTo("0 이상의 개수를 입력해주세요.");
+        assertThat(exception.getMessage()).isEqualTo("수동 로또는 0개 이상 구매 가능합니다. (음수 입력 불가)");
     }
 
     @Test
@@ -31,6 +31,6 @@ public class PurchasePlanTest {
     public void createPurchasePlanFailExceedManualCountTest() {
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
                 () -> new PurchasePlan(8, 9));
-        assertThat(exception.getMessage()).isEqualTo("수동 구매 가능 개수를 초과했습니다.");
+        assertThat(exception.getMessage()).isEqualTo("수동 구매 가능 개수를 초과했습니다. (최대 8장 구매 가능합니다.)");
     }
 }

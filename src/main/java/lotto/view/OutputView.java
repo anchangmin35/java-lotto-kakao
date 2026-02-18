@@ -69,4 +69,8 @@ public class OutputView {
     public void printManualPurchase() {
         System.out.println("\n수동으로 구매할 번호를 입력해 주세요.");
     }
+
+    public void printErrorMessage(String message) {
+        System.out.println("=============== [에러] " + message + " ===============");
+    }
 }
